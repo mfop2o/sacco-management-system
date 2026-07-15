@@ -1,0 +1,17 @@
+{
+    "title": "ግብይቶች",
+    "searchBy": "በምን ይፈልጉ",
+    "memberId": "የአባል መታወቂያ",
+    "accountId": "የሂሳብ መታወቂያ",
+    "loanId": "የብድር መታወቂያ",
+    "txNumber": "ግብይት #",
+    "type": "አይነት",
+    "amount": "መጠን",
+    "description": "ገለጻ",
+    "date": "ቀን",
+    "status": "ሁኔታ",
+    "method": "ዘዴ",
+    "noTransactions": "ምንም ግብይቶች አልተገኙም።",
+    "searchPrompt": "ከላይ ግብይቶችን ፈልግ።",
+    "searching": "እየፈለጉ..."
+}

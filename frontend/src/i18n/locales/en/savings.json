@@ -1,0 +1,22 @@
+{
+    "title": "Savings Accounts",
+    "deposit": "Deposit",
+    "withdraw": "Withdraw",
+    "accountNumber": "Account #",
+    "accountType": "Account Type",
+    "member": "Member",
+    "interestRate": "Rate",
+    "balance": "Balance",
+    "status": "Status",
+    "closeAccount": "Close Account",
+    "closeConfirm": "Close this savings account? It will be deactivated.",
+    "editAccountType": "Edit Account Type",
+    "noAccounts": "No savings accounts found.",
+    "searchByMemberId": "Search by Member ID",
+    "paymentMethod": "Payment Method",
+    "description": "Description",
+    "depositSuccess": "Deposit successful",
+    "withdrawSuccess": "Withdrawal successful",
+    "depositFailed": "Deposit failed",
+    "withdrawFailed": "Withdrawal failed"
+}

@@ -1,0 +1,17 @@
+{
+    "title": "Raawwattoota",
+    "searchBy": "Maaliifiin Barbaadi",
+    "memberId": "ID Miseensaa",
+    "accountId": "ID Herreegaa",
+    "loanId": "ID Liqii",
+    "txNumber": "Raawwattoo #",
+    "type": "Gosa",
+    "amount": "Baay'ina",
+    "description": "Ibsa",
+    "date": "Guyyaa",
+    "status": "Haala",
+    "method": "Karaa",
+    "noTransactions": "Raawwattoota hin argamne.",
+    "searchPrompt": "Raawwattoota ol barbaadi.",
+    "searching": "Barbaadaa jira..."
+}

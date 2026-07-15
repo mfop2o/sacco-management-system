@@ -1,0 +1,17 @@
+# Exclude unnecessary files to keep image small
+.idea/
+.vscode/
+.git/
+*.iml
+*.log
+logs/
+.gradle/
+gradle/
+src/
+build.gradle
+settings.gradle
+gradlew
+gradlew.bat
+*.md
+*.yml
+*.yaml

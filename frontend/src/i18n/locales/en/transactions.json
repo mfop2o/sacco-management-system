@@ -1,0 +1,17 @@
+{
+    "title": "Transactions",
+    "searchBy": "Search By",
+    "memberId": "Member ID",
+    "accountId": "Account ID",
+    "loanId": "Loan ID",
+    "txNumber": "TXN #",
+    "type": "Type",
+    "amount": "Amount",
+    "description": "Description",
+    "date": "Date",
+    "status": "Status",
+    "method": "Method",
+    "noTransactions": "No transactions found.",
+    "searchPrompt": "Search for transactions above.",
+    "searching": "Searching..."
+}

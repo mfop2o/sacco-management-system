@@ -1,0 +1,325 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.2.6'
+    id 'io.spring.dependency-management' version '1.1.5'
+    id 'jacoco'
+}
+
+group = 'com.sacco'
+version = '0.0.1-SNAPSHOT'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+repositories {
+    mavenCentral()
+    maven { url 'https://repo.spring.io/milestone' }
+    maven { url 'https://repo.spring.io/snapshot' }
+}
+
+dependencies {
+    // ============================================
+    // SPRING BOOT STARTERS
+    // ============================================
+    
+    // Core Web
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    // implementation 'org.springframework.boot:spring-boot-starter-webmvc'
+    
+    // Data Access
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    
+    // Security
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
+    
+    // Cache & Session Management
+    implementation 'org.springframework.boot:spring-boot-starter-cache'
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+    
+    // Messaging & Async
+    implementation 'org.springframework.boot:spring-boot-starter-amqp'
+    implementation 'org.springframework.boot:spring-boot-starter-mail'
+    
+    // Monitoring
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation 'io.micrometer:micrometer-registry-prometheus'
+    
+    // Batch Processing
+    implementation 'org.springframework.boot:spring-boot-starter-batch'
+    
+    // ============================================
+    // DATABASE
+    // ============================================
+    
+    // PostgreSQL
+    runtimeOnly 'org.postgresql:postgresql'
+    
+    // Database Migration
+    implementation 'org.flywaydb:flyway-core'
+    // implementation 'org.flywaydb:flyway-database-postgresql'
+    
+    // H2 for testing (optional)
+    testRuntimeOnly 'com.h2database:h2'
+    
+    // ============================================
+    // JWT AUTHENTICATION
+    // ============================================
+    
+    implementation 'io.jsonwebtoken:jjwt-api:0.12.5'
+    runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.12.5'
+    runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.12.5'
+    
+    // ============================================
+    // UTILITIES & HELPERS
+    // ============================================
+    
+    // Lombok - Reduce boilerplate
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+    testCompileOnly 'org.projectlombok:lombok'
+    testAnnotationProcessor 'org.projectlombok:lombok'
+    
+    // MapStruct - DTO mapping
+    implementation 'org.mapstruct:mapstruct:1.5.5.Final'
+    annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.5.Final'
+    annotationProcessor 'org.projectlombok:lombok-mapstruct-binding:0.2.0'
+    
+    // Apache Commons
+    implementation 'org.apache.commons:commons-lang3:3.14.0'
+    implementation 'org.apache.commons:commons-collections4:4.4'
+    implementation 'commons-io:commons-io:2.15.1'
+    
+    // CSV/Excel Export
+    implementation 'org.apache.poi:poi:5.2.5'
+    implementation 'org.apache.poi:poi-ooxml:5.2.5'
+    
+    // PDF Generation
+    implementation 'com.itextpdf:itextpdf:5.5.13.3'
+    implementation 'com.github.librepdf:openpdf:1.3.35'
+    
+    // JSON Processing
+    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
+    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jdk8'
+    
+    // ============================================
+    // SECURITY & ENCRYPTION
+    // ============================================
+    
+    // Bcrypt
+    implementation 'org.mindrot:jbcrypt:0.4'
+    
+    // AES Encryption
+    implementation 'org.springframework.security:spring-security-crypto'
+    
+    // ============================================
+    // API DOCUMENTATION
+    // ============================================
+    
+    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.5.0'
+    
+    // ============================================
+    // LOGGING
+    // ============================================
+    
+    implementation 'ch.qos.logback:logback-classic'
+    implementation 'org.slf4j:slf4j-api'
+    
+    // ============================================
+    // DEVELOPMENT TOOLS
+    // ============================================
+    
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    developmentOnly 'org.springframework.boot:spring-boot-docker-compose'
+    
+    // ============================================
+    // TESTING
+    // ============================================
+    
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.security:spring-security-test'
+    testImplementation 'org.springframework.batch:spring-batch-test'
+    testImplementation 'org.springframework.amqp:spring-rabbit-test'
+    testImplementation 'org.testcontainers:testcontainers:1.19.8'
+    testImplementation 'org.testcontainers:postgresql:1.19.8'
+    testImplementation 'org.testcontainers:junit-jupiter:1.19.8'
+    testImplementation 'org.awaitility:awaitility:4.2.1'
+    
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+// ============================================
+// BUILD CONFIGURATION
+// ============================================
+
+tasks.named('test') {
+    useJUnitPlatform()
+    finalizedBy jacocoTestReport
+}
+
+// JaCoCo Code Coverage
+tasks.named('jacocoTestReport') {
+    dependsOn test
+
+    reports {
+        xml.required = true
+        html.required = true
+        csv.required = false
+    }
+}
+
+// BootJar Configuration
+bootJar {
+    manifest {
+        attributes(
+            'Implementation-Title': 'SACCO Management System',
+            'Implementation-Version': archiveVersion,
+            'Implementation-Vendor': 'SACCO',
+            'Build-Timestamp': new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
+            'Build-Jdk': System.getProperty('java.version')
+        )
+    }
+}
+
+// Process Resources with Filtering
+// processResources {
+//     filesMatching('application.yml') {
+//         expand(
+//             project: project,
+//             version: version,
+//             buildTime: new Date().format("yyyy-MM-dd HH:mm:ss")
+//         )
+//     }
+// }
+
+// ============================================
+// GRADLE WRAPPER VALIDATION
+// ============================================
+
+wrapper {
+    gradleVersion = '8.7'
+    distributionType = Wrapper.DistributionType.BIN
+}
+
+// ============================================
+// COMPILE JAVA OPTIONS
+// ============================================
+
+compileJava {
+    options.compilerArgs << '-parameters'
+    options.encoding = 'UTF-8'
+}
+
+compileTestJava {
+    options.encoding = 'UTF-8'
+}
+
+// ============================================
+// TASK FOR FRONTEND INTEGRATION
+// ============================================
+
+tasks.register('copyFrontendBuild', Copy) {
+    dependsOn 'buildFrontend'
+    from '../frontend/dist'
+    into 'src/main/resources/static'
+    doLast {
+        println 'Frontend build copied to resources'
+    }
+}
+
+tasks.named("processResources") {
+    dependsOn(copyFrontendBuild)
+}
+
+tasks.register('buildFrontend', Exec) {
+    workingDir = file('../frontend')
+    group = 'build'
+    description = 'Build React frontend application'
+    
+    if (System.getProperty('os.name').toLowerCase().contains('windows')) {
+        commandLine 'npm.cmd', 'run', 'build'
+    } else {
+        commandLine 'npm', 'run', 'build'
+    }
+    
+    doFirst {
+        println 'Building frontend...'
+    }
+}
+
+// Build frontend before bootJar
+bootJar.dependsOn copyFrontendBuild
+
+// ============================================
+// TASK FOR DATABASE BACKUP
+// ============================================
+
+tasks.register('backupDatabase', Exec) {
+    group = 'database'
+    description = 'Backup PostgreSQL database'
+    commandLine 'pg_dump', '-U', 'sacco_user', '-h', 'localhost', '-d', 'sacco_db', '-F', 'c', '-f', 'backup.dump'
+}
+
+// ============================================
+// TASK FOR GENERATING API DOCUMENTATION
+// ============================================
+
+tasks.register('generateApiDocs', Exec) {
+    group = 'documentation'
+    description = 'Generate OpenAPI documentation'
+    dependsOn bootRun
+    commandLine 'curl', '-o', 'api-docs.json', 'http://localhost:8080/api/v3/api-docs'
+}
+
+// ============================================
+// GIT PRE-COMMIT HOOK (Optional)
+// ============================================
+
+tasks.register('installGitHooks', Copy) {
+    from 'scripts/pre-commit'
+    into '.git/hooks'
+    fileMode 0755
+}
+
+// ============================================
+// DEPENDENCY VERSION REPORT
+// ============================================
+
+tasks.register('dependencyReport') {
+    group = 'documentation'
+    description = 'Generate dependency version report'
+    doLast {
+        println '=== Dependency Version Report ==='
+        project.configurations.each { config ->
+            println "\n${config.name}:"
+            config.dependencies.each { dep ->
+                println "  ${dep.group}:${dep.name}:${dep.version}"
+            }
+        }
+    }
+}
+
+// ============================================
+// SPRING BOOT CONFIGURATION
+// ============================================
+
+springBoot {
+    buildInfo {
+        properties {
+            artifact = 'sacco-backend'
+            version = project.version
+            group = project.group
+            name = 'SACCO Management System Backend'
+        }
+    }
+}

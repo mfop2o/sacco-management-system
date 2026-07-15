@@ -1,0 +1,21 @@
+{
+    "title": "Fayyadamtoota",
+    "createUser": "Fayyadamaa Uumi",
+    "username": "Maqaa Fayyadamaa",
+    "firstName": "Maqaa",
+    "lastName": "Maqaa Abbaa",
+    "email": "Imeelii",
+    "phone": "Bilbila",
+    "password": "Jecha Darbii",
+    "role": "Gahee",
+    "status": "Haala",
+    "lastLogin": "Seensa Dhumaa",
+    "never": "Gonkumaa hin seenne",
+    "deactivate": "Dhaabi",
+    "deactivateConfirm": "Fayyadamaa kana dhaabuu barbaaddaa?",
+    "noUsers": "Fayyadamtoonni hin argamne.",
+    "creating": "Uumaa jira...",
+    "createSuccess": "Fayyadamaan milkaa'inaan uumame",
+    "createFailed": "Fayyadamaa uumuu hin milkoofne",
+    "deactivateFailed": "Fayyadamaa dhaabuu hin milkoofne"
+}

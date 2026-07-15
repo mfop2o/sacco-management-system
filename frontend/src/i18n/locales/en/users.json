@@ -1,0 +1,21 @@
+{
+    "title": "Users",
+    "createUser": "Create User",
+    "username": "Username",
+    "firstName": "First Name",
+    "lastName": "Last Name",
+    "email": "Email",
+    "phone": "Phone",
+    "password": "Password",
+    "role": "Role",
+    "status": "Status",
+    "lastLogin": "Last Login",
+    "never": "Never",
+    "deactivate": "Deactivate",
+    "deactivateConfirm": "Deactivate this user?",
+    "noUsers": "No users found.",
+    "creating": "Creating...",
+    "createSuccess": "User created successfully",
+    "createFailed": "Failed to create user",
+    "deactivateFailed": "Failed to deactivate user"
+}

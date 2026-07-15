@@ -1,0 +1,22 @@
+{
+    "title": "Herreega Qusannaa",
+    "deposit": "Kaa'i",
+    "withdraw": "Baasiifadhu",
+    "accountNumber": "Herreega #",
+    "accountType": "Gosa Herregaa",
+    "member": "Miseensa",
+    "interestRate": "Sooridaa",
+    "balance": "Haala",
+    "status": "Haala",
+    "closeAccount": "Herreega Cufuu",
+    "closeConfirm": "Herreega qusannaa kana cufuu? Dhaabbataa ta'a.",
+    "editAccountType": "Gosa Herregaa Gulaali",
+    "noAccounts": "Herreegni qusannaa hin argamne.",
+    "searchByMemberId": "ID Miseensaan Barbaadi",
+    "paymentMethod": "Karaa Kaffaltii",
+    "description": "Ibsa",
+    "depositSuccess": "Kaa'insi milkaa'e",
+    "withdrawSuccess": "Baasiin milkaa'e",
+    "depositFailed": "Kaa'insi hin milkoofne",
+    "withdrawFailed": "Baasiin hin milkoofne"
+}

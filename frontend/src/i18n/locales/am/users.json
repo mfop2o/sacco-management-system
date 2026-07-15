@@ -1,0 +1,21 @@
+{
+    "title": "ተጠቃሚዎች",
+    "createUser": "ተጠቃሚ ፍጠር",
+    "username": "የተጠቃሚ ስም",
+    "firstName": "ስም",
+    "lastName": "የአባት ስም",
+    "email": "ኢሜይል",
+    "phone": "ስልክ",
+    "password": "የይለፍ ቃል",
+    "role": "ሚና",
+    "status": "ሁኔታ",
+    "lastLogin": "የመጨረሻ ግባ",
+    "never": "ፈጽሞ አልገባም",
+    "deactivate": "አሰናክል",
+    "deactivateConfirm": "ይህን ተጠቃሚ ማሰናከል ይፈልጋሉ?",
+    "noUsers": "ምንም ተጠቃሚዎች አልተገኙም።",
+    "creating": "እየፈጠሩ...",
+    "createSuccess": "ተጠቃሚ በተሳካ ሁኔታ ተፈጥሯል",
+    "createFailed": "ተጠቃሚ መፍጠር አልተሳካም",
+    "deactivateFailed": "ተጠቃሚ ማሰናከል አልተሳካም"
+}

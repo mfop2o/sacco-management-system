@@ -1,0 +1,22 @@
+{
+    "title": "የቁጠባ ሂሳቦች",
+    "deposit": "አስቀምጥ",
+    "withdraw": "አውጣ",
+    "accountNumber": "ሂሳብ #",
+    "accountType": "የሂሳብ አይነት",
+    "member": "አባል",
+    "interestRate": "ወለድ",
+    "balance": "ቀሪ",
+    "status": "ሁኔታ",
+    "closeAccount": "ሂሳብ ዝጋ",
+    "closeConfirm": "ይህን የቁጠባ ሂሳብ ይዝጉ? ይሰናከላል።",
+    "editAccountType": "የሂሳብ አይነት አርትዕ",
+    "noAccounts": "ምንም የቁጠባ ሂሳቦች አልተገኙም።",
+    "searchByMemberId": "በአባል መታወቂያ ፈልግ",
+    "paymentMethod": "የክፍያ ዘዴ",
+    "description": "ገለጻ",
+    "depositSuccess": "ቁጠባ ተሳክቷል",
+    "withdrawSuccess": "ወጪ ተሳክቷል",
+    "depositFailed": "ቁጠባ አልተሳካም",
+    "withdrawFailed": "ወጪ አልተሳካም"
+}
