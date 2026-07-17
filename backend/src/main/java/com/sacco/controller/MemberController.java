@@ -83,8 +83,8 @@ public class MemberController {
     
     @DeleteMapping("/{id}")
     @PreAuthorize("hasAnyRole('SUPER_ADMIN', 'SYSTEM_ADMIN')")
-    public ResponseEntity<Void> archiveMember(@PathVariable UUID id) {
-        memberService.archiveMember(id);
+    public ResponseEntity<Void> deleteMember(@PathVariable UUID id) {
+        memberService.deleteMember(id);
         return ResponseEntity.noContent().build();
     }
     

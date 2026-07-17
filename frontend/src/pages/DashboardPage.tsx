@@ -53,12 +53,24 @@ const monthlyData = [
 
 const DONUT_COLORS = ['#60A5FA', '#93C5FD', '#BFDBFE', '#DBEAFE', '#EFF6FF'];
 
-const ChartTooltip = ({ active, payload, label }: any) => {
+interface ChartTooltipPayload {
+  name: string;
+  value: number;
+  color?: string;
+}
+
+interface ChartTooltipProps {
+  active?: boolean;
+  payload?: ChartTooltipPayload[];
+  label?: string;
+}
+
+const ChartTooltip = ({ active, payload, label }: ChartTooltipProps) => {
   if (active && payload?.length) {
     return (
       <div className="bg-white rounded-xl shadow-lg border border-blue-100 p-3 text-xs">
         <p className="font-bold text-text-dark mb-1">{label}</p>
-        {payload.map((e: any) => (
+        {payload.map((e) => (
           <p key={e.name} style={{ color: e.color }}>
             {e.name}: <span className="font-bold">${e.value.toLocaleString()}</span>
           </p>
@@ -73,20 +85,20 @@ export default function DashboardPage() {
   const { user } = useAuth();
   const navigate = useNavigate();
 
-  const { t } = useTranslation();
+  const { t: td } = useTranslation('dashboard'); // dashboard-specific keys
+  const { t } = useTranslation();               // shared keys (members_title, sidebar_*)
 
   const [data, setData] = useState<DashboardData | null>(null);
   const [loading, setLoading] = useState(true);
   const [recentTxs, setRecentTxs] = useState<RecentTx[]>([]);
-  const [isMember, setIsMember] = useState(false);
   const [chartPeriod, setChartPeriod] = useState<'6m' | '1y'>('1y');
 
+  const isMember = user?.role === 'MEMBER';
+
   useEffect(() => {
-    const memberRole = user?.role === 'MEMBER';
-    setIsMember(memberRole);
     api.get('/dashboard/summary').then(r => setData(r.data)).catch(() => { }).finally(() => setLoading(false));
-    if (memberRole) api.get('/transactions/me').then(r => setRecentTxs(r.data.slice(0, 6))).catch(() => { });
-  }, []);
+    if (isMember) api.get('/transactions/me').then(r => setRecentTxs(r.data.slice(0, 6))).catch(() => { });
+  }, [isMember]);
 
   if (loading) return (
     <div className="flex items-center justify-center min-h-screen bg-bg dark:bg-slate-950">
@@ -105,17 +117,17 @@ export default function DashboardPage() {
       : v.toLocaleString();
 
   const statTiles = [
-    { label: t('dashboard.totalMembers'), value: data?.totalMembers ?? 0, fmt: 'n', sub: `${data?.activeMembers ?? 0} ${t('dashboard.active')}` },
-    { label: t('dashboard.totalSavings'), value: data?.totalSavings ?? 0, fmt: '$', sub: t('dashboard.portfolioBalance') },
-    { label: t('dashboard.loanPortfolio'), value: data?.totalLoanOutstanding ?? 0, fmt: '$', sub: `${data?.activeLoans ?? 0} ${t('dashboard.activeLoans')}` },
-    { label: t('dashboard.pendingApprovals'), value: data?.pendingApprovals ?? 0, fmt: 'n', sub: t('dashboard.awaitingReview') },
+    { label: td('totalMembers'), value: data?.totalMembers ?? 0, fmt: 'n', sub: `${data?.activeMembers ?? 0} ${td('active')}` },
+    { label: td('totalSavings'), value: data?.totalSavings ?? 0, fmt: '$', sub: td('portfolioBalance') },
+    { label: td('loanPortfolio'), value: data?.totalLoanOutstanding ?? 0, fmt: '$', sub: `${data?.activeLoans ?? 0} ${td('activeLoans')}` },
+    { label: td('pendingApprovals'), value: data?.pendingApprovals ?? 0, fmt: 'n', sub: td('awaitingReview') },
   ];
 
   const quickActions = [
-    { label: t('members.title'), desc: t('dashboard.browseMembers'), path: '/members', icon: FiUsers },
-    { label: t('nav.loanApplication'), desc: t('dashboard.submitNewApplication'), path: '/loans/apply', icon: FiPlus },
-    { label: t('nav.loanApprovals'), desc: t('dashboard.pendingLoanRequests'), path: '/loans/approval', icon: FiList },
-    { label: t('nav.savings'), desc: t('dashboard.savingsAccounts'), path: '/savings', icon: FiSave },
+    { label: t('members_title'), desc: td('browseMembers'), path: '/members', icon: FiUsers },
+    { label: t('sidebar_loanApplication'), desc: td('submitNewApplication'), path: '/loans/apply', icon: FiPlus },
+    { label: t('sidebar_loanApprovals'), desc: td('pendingLoanRequests'), path: '/loans/approval', icon: FiList },
+    { label: t('sidebar_savings'), desc: td('savingsAccounts'), path: '/savings', icon: FiSave },
   ];
 
   // Donut data
@@ -130,8 +142,8 @@ export default function DashboardPage() {
     })()
     : data
       ? [
-        { name: t('dashboard.totalSavings'), value: Math.max(data.totalSavings, 1) },
-        { name: t('dashboard.loanPortfolio'), value: Math.max(data.totalLoanOutstanding, 1) },
+        { name: td('totalSavings'), value: Math.max(data.totalSavings, 1) },
+        { name: td('loanPortfolio'), value: Math.max(data.totalLoanOutstanding, 1) },
         { name: 'Shares', value: Math.max(data.totalSharesValue, 1) },
       ]
       : [];
@@ -146,9 +158,9 @@ export default function DashboardPage() {
         <div className="flex items-center justify-between">
           <div className="pl-12 lg:pl-0">
             <h1 className="text-lg sm:text-xl font-black text-text-dark">
-              {t('dashboard.welcome')}, <span className="text-primary">{user?.fullName?.split(' ')[0] || 'User'}</span> 👋
+              {td('welcome')}, <span className="text-primary">{user?.fullName?.split(' ')[0] || 'User'}</span> 👋
             </h1>
-            <p className="text-xs text-text-soft mt-0.5 hidden sm:block">{t('dashboard.subtitle')}</p>
+            <p className="text-xs text-text-soft mt-0.5 hidden sm:block">{td('subtitle')}</p>
           </div>
           <button className="relative w-9 h-9 rounded-xl bg-primary-50 border border-primary-100 flex items-center justify-center text-primary hover:bg-primary-100 transition-colors">
             <FiBell className="w-4 h-4" />
@@ -180,7 +192,7 @@ export default function DashboardPage() {
                   <span className={`inline-flex items-center gap-1 text-xs font-bold px-2 py-0.5 rounded-full ${filled ? 'bg-white/20 text-white' : 'bg-primary-50 text-primary'
                     }`}>
                     <FiArrowUpRight className="w-3 h-3" />
-                    {i === 3 ? (tile.value === 0 ? t('dashboard.allClear') : `${tile.value} ${t('dashboard.pending')}`) : tile.sub}
+                    {i === 3 ? (tile.value === 0 ? td('allClear') : `${tile.value} ${td('pending')}`) : tile.sub}
                   </span>
                 </div>
               </div>
@@ -193,8 +205,8 @@ export default function DashboardPage() {
           <div className="lg:col-span-2 bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-sm border border-blue-50 dark:border-slate-700">
             <div className="flex items-center justify-between mb-5">
               <div>
-                <h2 className="text-base font-bold text-text-dark">{t('dashboard.accountBalance')}</h2>
-                <p className="text-xs text-text-soft mt-0.5">{t('dashboard.savingsVsLoans')}</p>
+                <h2 className="text-base font-bold text-text-dark">{td('accountBalance')}</h2>
+                <p className="text-xs text-text-soft mt-0.5">{td('savingsVsLoans')}</p>
               </div>
               <div className="flex items-center gap-1 bg-primary-50 rounded-lg p-1">
                 {(['6m', '1y'] as const).map(p => (
@@ -229,7 +241,7 @@ export default function DashboardPage() {
           </div>
 
           <div className="bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-sm border border-blue-50 dark:border-slate-700">
-            <h2 className="text-base font-bold text-text-dark mb-4">{t('dashboard.quickActions')}</h2>
+            <h2 className="text-base font-bold text-text-dark mb-4">{td('quickActions')}</h2>
             <div className="space-y-2">
               {quickActions.map(action => (
                 <button key={action.path} onClick={() => navigate(action.path)}
@@ -247,10 +259,10 @@ export default function DashboardPage() {
             </div>
             {data && (
               <div className="mt-5 pt-5 border-t border-blue-50 space-y-3">
-                <p className="text-xs font-bold text-text-soft uppercase tracking-wider">{t('dashboard.activity')}</p>
+                <p className="text-xs font-bold text-text-soft uppercase tracking-wider">{td('activity')}</p>
                 {[
-                  { label: t('dashboard.activeMembers'), val: data.activeMembers, total: data.totalMembers || 1 },
-                  { label: t('dashboard.loanUtilization'), val: data.activeLoans, total: data.totalLoans || 1 },
+                  { label: td('activeMembers'), val: data.activeMembers, total: data.totalMembers || 1 },
+                  { label: td('loanUtilization'), val: data.activeLoans, total: data.totalLoans || 1 },
                 ].map(bar => (
                   <div key={bar.label}>
                     <div className="flex justify-between text-xs text-text-soft mb-1">
@@ -272,8 +284,8 @@ export default function DashboardPage() {
           <div className="lg:col-span-2 bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-sm border border-blue-50 dark:border-slate-700">
             <div className="flex items-center justify-between mb-5">
               <div>
-                <h2 className="text-base font-bold text-text-dark">{t('dashboard.portfolioDistribution')}</h2>
-                <p className="text-xs text-text-soft mt-0.5">{t('dashboard.monthlySavingsVsLoans')}</p>
+                <h2 className="text-base font-bold text-text-dark">{td('portfolioDistribution')}</h2>
+                <p className="text-xs text-text-soft mt-0.5">{td('monthlySavingsVsLoans')}</p>
               </div>
               <FiTrendingUp className="w-4 h-4 text-text-soft" />
             </div>
@@ -294,12 +306,12 @@ export default function DashboardPage() {
           <div className="bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-sm border border-blue-50 dark:border-slate-700 flex flex-col">
             <div className="flex items-center justify-between mb-4">
               <div>
-                <h2 className="text-base font-bold text-text-dark">{t('dashboard.recentActivity')}</h2>
-                <p className="text-xs text-text-soft mt-0.5">{t('dashboard.transactionBreakdown')}</p>
+                <h2 className="text-base font-bold text-text-dark">{td('recentActivity')}</h2>
+                <p className="text-xs text-text-soft mt-0.5">{td('transactionBreakdown')}</p>
               </div>
               {isMember && (
                 <button onClick={() => navigate('/transactions')} className="text-xs text-primary font-semibold hover:underline">
-                  {t('dashboard.viewAll')} →
+                  {t('dashboard_viewAll')} →
                 </button>
               )}
             </div>
@@ -326,7 +338,7 @@ export default function DashboardPage() {
                   </PieChart>
                 </ResponsiveContainer>
                 <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-                  <span className="text-[10px] font-semibold text-text-soft uppercase tracking-wider">{t('dashboard.total')}</span>
+                  <span className="text-[10px] font-semibold text-text-soft uppercase tracking-wider">{t('dashboard_total')}</span>
                   <span className="text-lg font-black text-text-dark leading-tight">
                     ${donutTotal >= 1000 ? `${(donutTotal / 1000).toFixed(1)}k` : donutTotal.toLocaleString()}
                   </span>
@@ -364,11 +376,11 @@ export default function DashboardPage() {
                 })
               ) : !isMember && data ? (
                 [
-                  { label: t('members.title'), value: data.totalMembers.toLocaleString() },
-                  { label: t('dashboard.activeLoans'), value: data.activeLoans.toLocaleString() },
-                  { label: t('dashboard.totalSavings'), value: `$${Number(data.totalSavings).toLocaleString()}` },
+                  { label: t('members_title'), value: data.totalMembers.toLocaleString() },
+                  { label: t('dashboard_activeLoans'), value: data.activeLoans.toLocaleString() },
+                  { label: t('dashboard_totalSavings'), value: `$${Number(data.totalSavings).toLocaleString()}` },
                   { label: 'Shares', value: `$${Number(data.totalSharesValue).toLocaleString()}` },
-                  { label: t('dashboard.pendingApprovals'), value: data.pendingApprovals.toLocaleString() },
+                  { label: t('dashboard_pendingApprovals'), value: data.pendingApprovals.toLocaleString() },
                 ].map(item => (
                   <div key={item.label} className="flex items-center justify-between py-2.5">
                     <span className="text-xs text-text-mid">{item.label}</span>
@@ -378,7 +390,7 @@ export default function DashboardPage() {
               ) : (
                 <div className="flex flex-col items-center justify-center py-6 text-center">
                   <FiClipboard className="w-5 h-5 text-primary-200 mb-2" />
-                  <p className="text-xs text-text-soft">{t('dashboard.noTransactions')}</p>
+                  <p className="text-xs text-text-soft">{t('dashboard_noTransactions')}</p>
                 </div>
               )}
             </div>

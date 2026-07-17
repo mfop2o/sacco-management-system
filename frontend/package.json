@@ -4,6 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
+    "predev": "powershell -Command \"$p = netstat -ano | Select-String 'LISTENING' | Select-String ':5173'; if ($p) { $id = $p.Line -replace '.*\\s(\\d+)$','$1'; if ($id -ne '0') { Stop-Process -Id $id -Force } }\"",
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",

@@ -111,10 +111,8 @@ public class MemberService {
     }
     
     @Transactional
-    public void archiveMember(UUID id) {
+    public void deleteMember(UUID id) {
         Member member = getMemberById(id);
-        member.setStatus(Member.MemberStatus.ARCHIVED);
-        member.setExitDate(LocalDate.now());
-        memberRepository.save(member);
+        memberRepository.delete(member);
     }
 }

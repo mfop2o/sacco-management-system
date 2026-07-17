@@ -137,7 +137,7 @@ export default function RepaymentPage() {
             });
             setStep('done');
         } catch (err: any) {
-            setError(err.response?.data?.message || t('loans.repaymentFailed'));
+            setError(err.response?.data?.message || t('loans_repaymentFailed'));
         } finally {
             setSubmitting(false);
         }
@@ -154,10 +154,10 @@ export default function RepaymentPage() {
 
     // ── Step indicator ──────────────────────────────────────────────
     const STEPS: { key: Step; label: string }[] = [
-        { key: 'select-loan', label: t('repayment.stepsLoan') },
-        { key: 'select-method', label: t('repayment.stepsMethod') },
-        { key: 'enter-amount', label: t('repayment.stepsAmount') },
-        { key: 'confirm', label: t('repayment.stepsConfirm') },
+        { key: 'select-loan', label: t('repayment_stepsLoan') },
+        { key: 'select-method', label: t('repayment_stepsMethod') },
+        { key: 'enter-amount', label: t('repayment_stepsAmount') },
+        { key: 'confirm', label: t('repayment_stepsConfirm') },
     ];
     const stepIdx = STEPS.findIndex(s => s.key === step);
 
@@ -174,8 +174,8 @@ export default function RepaymentPage() {
         <div className="max-w-2xl mx-auto">
             {/* Header */}
             <div className="mb-7">
-                <h2 className="text-2xl font-black text-text-dark dark:text-slate-100">{t('repayment.title')}</h2>
-                <p className="text-sm text-text-soft mt-1">{t('repayment.subtitle')}</p>
+                <h2 className="text-2xl font-black text-text-dark dark:text-slate-100">{t('repayment_title')}</h2>
+                <p className="text-sm text-text-soft mt-1">{t('repayment_subtitle')}</p>
             </div>
 
             {/* Step indicator */}
@@ -206,12 +206,14 @@ export default function RepaymentPage() {
             {step === 'select-loan' && (
                 <div className="bg-white rounded-2xl border border-blue-50 shadow-sm shadow-blue-100 overflow-hidden">
                     <div className="px-6 py-4 border-b border-blue-50">
-                        <p className="text-sm font-bold text-text-dark">{t('repayment.selectLoan')}</p>
+                        <p className="text-sm font-bold text-text-dark">{t('repayment_selectLoan')}</p>
                     </div>
                     {loans.length === 0 ? (
-                        <div className="py-16 text-center">
-                            <FiAlertCircle className="mx-auto w-8 h-8 text-primary-200 mb-3" />
-                            <p className="text-sm text-text-soft">{t('repayment.noActiveLoans')}</p>
+                        <div className="py-20 text-center flex flex-col items-center justify-center min-h-[50vh]">
+                            <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-primary shadow-lg shadow-primary/20">
+                                <FiAlertCircle className="text-3xl text-white" />
+                            </div>
+                            <p className="text-gray-500 text-lg font-medium">{t('repayment_noActiveLoans')}</p>
                         </div>
                     ) : loans.map(loan => (
                         <button key={loan.id} onClick={() => { setSelectedLoan(loan); setStep('select-method'); }}
@@ -222,12 +224,12 @@ export default function RepaymentPage() {
                             </div>
                             <div className="flex items-center gap-4">
                                 <div className="text-right">
-                                    <p className="text-xs text-text-soft">{t('repayment.outstanding')}</p>
+                                    <p className="text-xs text-text-soft">{t('repayment_outstanding')}</p>
                                     <p className="text-sm font-black text-text-dark">${Number(loan.outstandingBalance).toLocaleString()}</p>
                                 </div>
                                 {loan.arrearsAmount > 0 && (
                                     <div className="text-right">
-                                        <p className="text-xs text-text-soft">{t('repayment.arrears')}</p>
+                                        <p className="text-xs text-text-soft">{t('repayment_arrears')}</p>
                                         <p className="text-sm font-bold text-red-500">${Number(loan.arrearsAmount).toLocaleString()}</p>
                                     </div>
                                 )}
@@ -241,7 +243,7 @@ export default function RepaymentPage() {
             {/* ── Step: select method ── */}
             {step === 'select-method' && (
                 <div className="space-y-4">
-                    <p className="text-sm font-bold text-text-dark px-1">{t('repayment.selectMethod')}</p>
+                    <p className="text-sm font-bold text-text-dark px-1">{t('repayment_selectMethod')}</p>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         {METHODS.map(m => (
                             <button key={m.id} onClick={() => { setSelectedMethod(m); setStep('enter-amount'); }}
@@ -258,7 +260,7 @@ export default function RepaymentPage() {
                     </div>
                     <button onClick={() => setStep('select-loan')}
                         className="mt-2 text-sm text-text-soft hover:text-primary transition-colors">
-                        {t('common.back')}
+                        {t('common_back')}
                     </button>
                 </div>
             )}
@@ -275,9 +277,9 @@ export default function RepaymentPage() {
                     {/* Loan info */}
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                         {[
-                            { label: t('repayment.loanInfo'), value: selectedLoan.loanNumber },
-                            { label: t('repayment.outstanding'), value: `$${Number(selectedLoan.outstandingBalance).toLocaleString()}` },
-                            { label: t('repayment.arrears'), value: `$${Number(selectedLoan.arrearsAmount).toLocaleString()}` },
+                            { label: t('repayment_loanInfo'), value: selectedLoan.loanNumber },
+                            { label: t('repayment_outstanding'), value: `$${Number(selectedLoan.outstandingBalance).toLocaleString()}` },
+                            { label: t('repayment_arrears'), value: `$${Number(selectedLoan.arrearsAmount).toLocaleString()}` },
                         ].map(i => (
                             <div key={i.label} className="bg-primary-50 rounded-xl p-3 text-center">
                                 <p className="text-[10px] text-text-soft uppercase tracking-wider font-semibold">{i.label}</p>
@@ -288,7 +290,7 @@ export default function RepaymentPage() {
 
                     {/* Amount input */}
                     <div>
-                        <label className="block text-sm font-semibold text-text-dark mb-1.5">{t('repayment.enterAmount')}</label>
+                        <label className="block text-sm font-semibold text-text-dark mb-1.5">{t('repayment_enterAmount')}</label>
                         <div className="relative">
                             <span className="absolute inset-y-0 left-0 pl-4 flex items-center text-text-soft font-bold text-sm">$</span>
                             <input type="number" step="0.01" min="0.01"
@@ -297,24 +299,24 @@ export default function RepaymentPage() {
                                 className="w-full pl-8 pr-4 py-3 rounded-xl border border-primary-100 bg-primary-50 text-text-dark font-bold text-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary focus:bg-white transition-all" />
                         </div>
                         <p className="text-xs text-text-soft mt-1.5">
-                            {t('repayment.minimum')}: $1.00 · {t('repayment.outstanding')}: <span className="font-semibold text-text-mid">${Number(selectedLoan.outstandingBalance).toLocaleString()}</span>
+                            {t('repayment_minimum')}: $1.00 · {t('repayment_outstanding')}: <span className="font-semibold text-text-mid">${Number(selectedLoan.outstandingBalance).toLocaleString()}</span>
                         </p>
                     </div>
 
                     {/* Reference (optional) */}
                     <div>
-                        <label className="block text-sm font-semibold text-text-dark mb-1.5">{t('repayment.reference')} <span className="text-text-soft font-normal">({t('repayment.referenceOptional')})</span></label>
+                        <label className="block text-sm font-semibold text-text-dark mb-1.5">{t('repayment_reference')} <span className="text-text-soft font-normal">({t('repayment_referenceOptional')})</span></label>
                         <input type="text" value={reference} onChange={e => setReference(e.target.value)}
                             placeholder="e.g. TXN-123456"
                             className="w-full px-4 py-2.5 rounded-xl border border-primary-100 bg-primary-50 text-text-dark text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary focus:bg-white transition-all" />
                     </div>
 
                     <div className="flex gap-3 pt-1">
-                        <button onClick={() => setStep('select-method')} className="px-5 py-2.5 rounded-xl border border-primary-100 text-sm font-semibold text-text-mid hover:bg-primary-50 dark:hover:bg-slate-700 transition-colors">{t('common.back')}</button>
+                        <button onClick={() => setStep('select-method')} className="px-5 py-2.5 rounded-xl border border-primary-100 text-sm font-semibold text-text-mid hover:bg-primary-50 dark:hover:bg-slate-700 transition-colors">{t('common_back')}</button>
                         <button onClick={() => { if (amount && parseFloat(amount) > 0) setStep('confirm'); }}
                             disabled={!amount || parseFloat(amount) <= 0}
                             className="flex-1 py-2.5 rounded-xl bg-primary text-white text-sm font-bold hover:bg-primary-dark disabled:opacity-40 disabled:cursor-not-allowed transition-all shadow-sm shadow-primary/20">
-                            {t('common.continue')}
+                            {t('common_continue')}
                         </button>
                     </div>
                 </div>
@@ -324,17 +326,17 @@ export default function RepaymentPage() {
             {step === 'confirm' && selectedLoan && selectedMethod && (
                 <div className="bg-white rounded-2xl border border-blue-50 shadow-sm shadow-blue-100 p-6 space-y-5">
                     <div className="text-center pb-2">
-                        <p className="text-xs font-bold text-text-soft uppercase tracking-widest mb-1">{t('repayment.confirm')}</p>
+                        <p className="text-xs font-bold text-text-soft uppercase tracking-widest mb-1">{t('repayment_confirm')}</p>
                         <p className="text-3xl font-black text-text-dark">${parseFloat(amount).toLocaleString(undefined, { minimumFractionDigits: 2 })}</p>
                     </div>
 
                     {/* Summary */}
                     <div className="bg-primary-50 rounded-xl divide-y divide-primary-100">
                         {[
-                            { label: t('repayment.loan'), value: selectedLoan.loanNumber },
-                            { label: t('repayment.method'), value: selectedMethod.label },
-                            { label: t('common.amount'), value: `$${parseFloat(amount).toLocaleString(undefined, { minimumFractionDigits: 2 })}` },
-                            ...(reference ? [{ label: t('common.reference'), value: reference }] : []),
+                            { label: t('repayment_loan'), value: selectedLoan.loanNumber },
+                            { label: t('repayment_method'), value: selectedMethod.label },
+                            { label: t('common_amount'), value: `$${parseFloat(amount).toLocaleString(undefined, { minimumFractionDigits: 2 })}` },
+                            ...(reference ? [{ label: t('common_reference'), value: reference }] : []),
                         ].map(row => (
                             <div key={row.label} className="flex justify-between px-4 py-3">
                                 <span className="text-xs font-semibold text-text-soft uppercase tracking-wider">{row.label}</span>
@@ -357,7 +359,7 @@ export default function RepaymentPage() {
                     <div className="flex gap-3">
                         <button onClick={() => { setStep('enter-amount'); setError(''); }}
                             className="px-5 py-2.5 rounded-xl border border-primary-100 text-sm font-semibold text-text-mid hover:bg-primary-50 dark:hover:bg-slate-700 transition-colors">
-                            {t('common.back')}
+                            {t('common_back')}
                         </button>
                         <button onClick={handleSubmit} disabled={submitting}
                             className="flex-1 py-2.5 rounded-xl bg-primary text-white text-sm font-bold hover:bg-primary-dark disabled:opacity-50 transition-all shadow-sm shadow-primary/20 flex items-center justify-center gap-2">
@@ -367,9 +369,9 @@ export default function RepaymentPage() {
                                         <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
                                         <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
                                     </svg>
-                                    {t('common.processing')}
+                                    {t('common_processing')}
                                 </>
-                            ) : t('repayment.confirmPay')}
+                            ) : t('repayment_confirmPay')}
                         </button>
                     </div>
                 </div>
@@ -382,14 +384,14 @@ export default function RepaymentPage() {
                         <FiCheckCircle className="w-8 h-8 text-primary" />
                     </div>
                     <div>
-                        <p className="text-xl font-black text-text-dark">{t('repayment.success')}</p>
-                        <p className="text-sm text-text-soft mt-1">{t('repayment.successSub')}</p>
+                        <p className="text-xl font-black text-text-dark">{t('repayment_success')}</p>
+                        <p className="text-sm text-text-soft mt-1">{t('repayment_successSub')}</p>
                     </div>
                     <div className="bg-primary-50 rounded-xl divide-y divide-primary-100 text-left">
                         {[
-                            { label: t('repayment.loan'), value: selectedLoan.loanNumber },
-                            { label: t('repayment.method'), value: selectedMethod.label },
-                            { label: t('common.amount'), value: `$${parseFloat(amount).toLocaleString(undefined, { minimumFractionDigits: 2 })}` },
+                            { label: t('repayment_loan'), value: selectedLoan.loanNumber },
+                            { label: t('repayment_method'), value: selectedMethod.label },
+                            { label: t('common_amount'), value: `$${parseFloat(amount).toLocaleString(undefined, { minimumFractionDigits: 2 })}` },
                         ].map(row => (
                             <div key={row.label} className="flex justify-between px-4 py-3">
                                 <span className="text-xs font-semibold text-text-soft uppercase tracking-wider">{row.label}</span>
@@ -399,7 +401,7 @@ export default function RepaymentPage() {
                     </div>
                     <button onClick={reset}
                         className="w-full py-2.5 rounded-xl bg-primary text-white text-sm font-bold hover:bg-primary-dark transition-all shadow-sm shadow-primary/20">
-                        {t('repayment.makeAnother')}
+                        {t('repayment_makeAnother')}
                     </button>
                 </div>
             )}

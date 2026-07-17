@@ -116,7 +116,7 @@ export default function LoanPaymentPage() {
       const methodMap: Record<string, string> = { CBE: 'BANK_TRANSFER', AWASH: 'BANK_TRANSFER', COOP: 'BANK_TRANSFER' };
       const backendMethod = methodMap[payMethod] || payMethod;
       await api.post(`/loans/${payLoanId}/repay`, null, { params: { amount: payAmount, paymentMethod: backendMethod } });
-      setPaySuccess(t('loans.repaymentSuccess'));
+      setPaySuccess(t('loans_repaymentSuccess'));
       setPayAmount('');
       setPayLoanId(null);
       setPayMethod('CASH');
@@ -127,7 +127,7 @@ export default function LoanPaymentPage() {
         if (updated) selectLoan(updated);
       }
     } catch (err: any) {
-      setPayError(err.response?.data?.message || t('loans.repaymentFailed'));
+      setPayError(err.response?.data?.message || t('loans_repaymentFailed'));
     } finally {
       setSubmitting(false);
     }
@@ -137,7 +137,7 @@ export default function LoanPaymentPage() {
     <div className="flex items-center justify-center py-20">
       <div className="flex flex-col items-center gap-3">
         <svg className="animate-spin h-8 w-8 text-primary" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" /><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" /></svg>
-        <span className="text-sm text-gray-500">{t('loans.loadingLoans')}</span>
+        <span className="text-sm text-gray-500">{t('loans_loadingLoans')}</span>
       </div>
     </div>
   );
@@ -146,8 +146,8 @@ export default function LoanPaymentPage() {
 
   const getMethodLabel = (method: string) => {
     const map: Record<string, string> = {
-      CASH: t('loans.cash'), TELEBIRR: t('loans.telebirr'), BANK_TRANSFER: t('loans.bankTransfer'),
-      MOBILE_MONEY: t('loans.mobileMoney'), SALARY_DEDUCTION: 'Salary Deduction',
+      CASH: t('loans_cash'), TELEBIRR: t('loans_telebirr'), BANK_TRANSFER: t('loans_bankTransfer'),
+      MOBILE_MONEY: t('loans_mobileMoney'), SALARY_DEDUCTION: 'Salary Deduction',
       AUTO_DEBIT: 'Auto Debit', CHECK: 'Check',
     };
     return map[method] || method;
@@ -156,8 +156,8 @@ export default function LoanPaymentPage() {
   return (
     <div>
       <div className="mb-8">
-        <h2 className="text-2xl font-black text-text-dark dark:text-slate-100">{t('loans.loanPayments')}</h2>
-        <p className="text-sm text-gray-500 mt-1">{t('loans.loanPaymentsSubtitle')}</p>
+        <h2 className="text-2xl font-black text-text-dark dark:text-slate-100">{t('loans_loanPayments')}</h2>
+        <p className="text-sm text-gray-500 mt-1">{t('loans_loanPaymentsSubtitle')}</p>
       </div>
 
       {paySuccess && (
@@ -172,11 +172,11 @@ export default function LoanPaymentPage() {
       )}
 
       {loans.length === 0 ? (
-        <div className="rounded-2xl border border-blue-50 dark:border-slate-700 bg-white dark:bg-slate-800 shadow-sm p-12 text-center">
-          <div className="mx-auto mb-3 flex h-14 w-14 items-center justify-center rounded-full bg-gray-100">
-            <FiDollarSign className="text-2xl text-gray-400" />
+        <div className="rounded-2xl border border-blue-50 dark:border-slate-700 bg-white dark:bg-slate-800 shadow-sm p-12 text-center flex flex-col items-center justify-center min-h-[60vh]">
+          <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-primary shadow-lg shadow-primary/20">
+            <FiDollarSign className="text-3xl text-white" />
           </div>
-          <p className="text-gray-500">{t('loans.noLoansYet')}</p>
+          <p className="text-gray-500 text-lg font-medium">{t('loans_noLoansYet')}</p>
         </div>
       ) : (
         <div className="grid grid-cols-1 gap-5 xl:grid-cols-3">
@@ -184,7 +184,7 @@ export default function LoanPaymentPage() {
           <div className="lg:col-span-1">
             <div className="rounded-2xl border border-blue-50 dark:border-slate-700 bg-white dark:bg-slate-800 shadow-sm">
               <div className="border-b border-gray-100 px-4 py-3">
-                <h3 className="text-sm font-semibold text-gray-900">{t('loans.yourLoans')}</h3>
+                <h3 className="text-sm font-semibold text-gray-900">{t('loans_yourLoans')}</h3>
               </div>
               <div className="divide-y divide-gray-100 dark:divide-slate-700">
                 {loans.map(loan => (
@@ -217,7 +217,7 @@ export default function LoanPaymentPage() {
               <div className="flex items-center justify-center rounded-2xl border border-blue-50 dark:border-slate-700 bg-white dark:bg-slate-800 shadow-sm py-20">
                 <div className="text-center">
                   <FiDollarSign className="mx-auto text-3xl text-gray-300" />
-                  <p className="mt-2 text-sm text-gray-500">{t('loans.selectLoanToView')}</p>
+                  <p className="mt-2 text-sm text-gray-500">{t('loans_selectLoanToView')}</p>
                 </div>
               </div>
             ) : (
@@ -235,21 +235,21 @@ export default function LoanPaymentPage() {
                   </div>
                   <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
                     <div>
-                      <p className="text-xs text-gray-500">{t('loans.principal')}</p>
+                      <p className="text-xs text-gray-500">{t('loans_principal')}</p>
                       <p className="text-sm font-semibold text-gray-900">${Number(selectedLoan.principalAmount).toLocaleString()}</p>
                     </div>
                     <div>
-                      <p className="text-xs text-gray-500">{t('loans.outstanding')}</p>
+                      <p className="text-xs text-gray-500">{t('loans_outstanding')}</p>
                       <p className="text-sm font-semibold text-gray-900">${Number(selectedLoan.outstandingBalance).toLocaleString()}</p>
                     </div>
                     <div>
-                      <p className="text-xs text-gray-500">{t('loans.arrears')}</p>
+                      <p className="text-xs text-gray-500">{t('loans_arrears')}</p>
                       <p className={`text-sm font-semibold ${selectedLoan.arrearsAmount > 0 ? 'text-red-600' : 'text-gray-900'}`}>
                         ${Number(selectedLoan.arrearsAmount).toLocaleString()}
                       </p>
                     </div>
                     <div>
-                      <p className="text-xs text-gray-500">{t('loans.applied')}</p>
+                      <p className="text-xs text-gray-500">{t('loans_applied')}</p>
                       <p className="text-sm font-semibold text-gray-900">{selectedLoan.applicationDate ? new Date(selectedLoan.applicationDate).toLocaleDateString() : '-'}</p>
                     </div>
                   </div>
@@ -258,7 +258,7 @@ export default function LoanPaymentPage() {
                       onClick={() => setPayLoanId(selectedLoan.id)}
                       className="mt-4 flex w-full items-center justify-center gap-2 rounded-xl bg-blue-800 px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-primary-dark"
                     >
-                      <FiCreditCard className="h-4 w-4" /> {t('loans.makePayment')}
+                      <FiCreditCard className="h-4 w-4" /> {t('loans_makePayment')}
                     </button>
                   )}
                 </div>
@@ -267,7 +267,7 @@ export default function LoanPaymentPage() {
                 <div className="rounded-2xl border border-blue-50 dark:border-slate-700 bg-white dark:bg-slate-800 shadow-sm">
                   <div className="border-b border-gray-100 px-5 py-3">
                     <h3 className="flex items-center gap-2 text-sm font-semibold text-gray-900">
-                      <FiCalendar className="h-4 w-4 text-gray-400" /> {t('loans.paymentSchedule')}
+                      <FiCalendar className="h-4 w-4 text-gray-400" /> {t('loans_paymentSchedule')}
                     </h3>
                   </div>
                   {scheduleLoading ? (
@@ -279,13 +279,13 @@ export default function LoanPaymentPage() {
                       <table className="w-full">
                         <thead>
                           <tr className="bg-gray-50">
-                            <th className="px-4 py-2.5 text-left text-xs font-semibold text-text-soft uppercase">{t('loans.installment')}</th>
-                            <th className="px-4 py-2.5 text-left text-xs font-semibold text-text-soft uppercase">{t('loans.dueDate')}</th>
-                            <th className="px-4 py-2.5 text-right text-xs font-semibold text-text-soft uppercase">{t('loans.principal')}</th>
-                            <th className="px-4 py-2.5 text-right text-xs font-semibold text-text-soft uppercase">{t('common.interest')}</th>
-                            <th className="px-4 py-2.5 text-right text-xs font-semibold text-text-soft uppercase">{t('common.total')}</th>
-                            <th className="px-4 py-2.5 text-right text-xs font-semibold text-text-soft uppercase">{t('loans.balance')}</th>
-                            <th className="px-4 py-2.5 text-center text-xs font-semibold text-text-soft uppercase">{t('loans.status')}</th>
+                            <th className="px-4 py-2.5 text-left text-xs font-semibold text-text-soft uppercase">{t('loans_installment')}</th>
+                            <th className="px-4 py-2.5 text-left text-xs font-semibold text-text-soft uppercase">{t('loans_dueDate')}</th>
+                            <th className="px-4 py-2.5 text-right text-xs font-semibold text-text-soft uppercase">{t('loans_principal')}</th>
+                            <th className="px-4 py-2.5 text-right text-xs font-semibold text-text-soft uppercase">{t('common_interest')}</th>
+                            <th className="px-4 py-2.5 text-right text-xs font-semibold text-text-soft uppercase">{t('common_total')}</th>
+                            <th className="px-4 py-2.5 text-right text-xs font-semibold text-text-soft uppercase">{t('loans_balance')}</th>
+                            <th className="px-4 py-2.5 text-center text-xs font-semibold text-text-soft uppercase">{t('loans_status')}</th>
                           </tr>
                         </thead>
                         <tbody className="divide-y divide-gray-100 dark:divide-slate-700">
@@ -307,7 +307,7 @@ export default function LoanPaymentPage() {
                             </tr>
                           ))}
                           {schedule.length === 0 && (
-                            <tr><td colSpan={7} className="px-4 py-8 text-center text-sm text-gray-500">{t('loans.noSchedule')}</td></tr>
+                            <tr><td colSpan={7} className="px-4 py-8 text-center text-sm text-gray-500">{t('loans_noSchedule')}</td></tr>
                           )}
                         </tbody>
                       </table>
@@ -319,18 +319,18 @@ export default function LoanPaymentPage() {
                 <div className="rounded-2xl border border-blue-50 dark:border-slate-700 bg-white dark:bg-slate-800 shadow-sm">
                   <div className="border-b border-gray-100 px-5 py-3">
                     <h3 className="flex items-center gap-2 text-sm font-semibold text-gray-900">
-                      <FiClock className="h-4 w-4 text-gray-400" /> {t('loans.paymentHistory')}
+                      <FiClock className="h-4 w-4 text-gray-400" /> {t('loans_paymentHistory')}
                     </h3>
                   </div>
                   <div className="overflow-x-auto">
                     <table className="w-full">
                       <thead>
                         <tr className="bg-gray-50">
-                          <th className="px-4 py-2.5 text-left text-xs font-semibold text-text-soft uppercase">{t('common.date')}</th>
-                          <th className="px-4 py-2.5 text-left text-xs font-semibold text-text-soft uppercase">{t('common.reference')}</th>
-                          <th className="px-4 py-2.5 text-left text-xs font-semibold text-text-soft uppercase">{t('common.method')}</th>
-                          <th className="px-4 py-2.5 text-right text-xs font-semibold text-text-soft uppercase">{t('loans.amount')}</th>
-                          <th className="px-4 py-2.5 text-center text-xs font-semibold text-text-soft uppercase">{t('loans.status')}</th>
+                          <th className="px-4 py-2.5 text-left text-xs font-semibold text-text-soft uppercase">{t('common_date')}</th>
+                          <th className="px-4 py-2.5 text-left text-xs font-semibold text-text-soft uppercase">{t('common_reference')}</th>
+                          <th className="px-4 py-2.5 text-left text-xs font-semibold text-text-soft uppercase">{t('common_method')}</th>
+                          <th className="px-4 py-2.5 text-right text-xs font-semibold text-text-soft uppercase">{t('loans_amount')}</th>
+                          <th className="px-4 py-2.5 text-center text-xs font-semibold text-text-soft uppercase">{t('loans_status')}</th>
                         </tr>
                       </thead>
                       <tbody className="divide-y divide-gray-100 dark:divide-slate-700">
@@ -348,7 +348,7 @@ export default function LoanPaymentPage() {
                           </tr>
                         ))}
                         {transactions.length === 0 && (
-                          <tr><td colSpan={5} className="px-4 py-8 text-center text-sm text-gray-500">{t('loans.noPayments')}</td></tr>
+                          <tr><td colSpan={5} className="px-4 py-8 text-center text-sm text-gray-500">{t('loans_noPayments')}</td></tr>
                         )}
                       </tbody>
                     </table>
@@ -362,13 +362,13 @@ export default function LoanPaymentPage() {
 
       {/* Make Payment Modal */}
       {payLoanId && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm" onClick={() => { setPayLoanId(null); setPayError(''); setPaySuccess(''); setPayMethod('CASH'); }}>
-          <div className="w-full max-w-md rounded-2xl bg-white p-6 shadow-2xl" onClick={e => e.stopPropagation()}>
-            <h3 className="text-lg font-bold text-text-dark mb-1">{t('loans.makePayment')}</h3>
-            <p className="mb-4 text-sm text-gray-500">{t('repayment.enterAmount')}</p>
+        <div className="fixed inset-0 z-50 bg-white dark:bg-slate-900 overflow-y-auto flex flex-col" onClick={() => { setPayLoanId(null); setPayError(''); setPaySuccess(''); setPayMethod('CASH'); }}>
+          <div className="w-full flex-1 p-6 md:p-10 flex flex-col justify-center" onClick={e => e.stopPropagation()}>
+            <h3 className="text-lg font-bold text-text-dark mb-1">{t('loans_makePayment')}</h3>
+            <p className="mb-4 text-sm text-gray-500">{t('repayment_enterAmount')}</p>
             <form onSubmit={handlePay}>
               <div className="mb-4">
-                <label className="mb-1.5 block text-sm font-medium text-gray-700">{t('loans.paymentAmount')}</label>
+                <label className="mb-1.5 block text-sm font-medium text-gray-700">{t('loans_paymentAmount')}</label>
                 <div className="relative">
                   <span className="absolute inset-y-0 left-0 flex items-center pl-3.5 text-sm font-medium text-gray-400">$</span>
                   <input
@@ -385,14 +385,14 @@ export default function LoanPaymentPage() {
                 </div>
               </div>
               <div className="mb-5">
-                <label className="mb-2 block text-sm font-medium text-gray-700">{t('loans.paymentMethod')}</label>
+                <label className="mb-2 block text-sm font-medium text-gray-700">{t('loans_paymentMethod')}</label>
                 <div className="grid grid-cols-2 gap-2">
                   {[
-                    { value: 'CASH', label: t('loans.cash'), icon: '💵' },
-                    { value: 'TELEBIRR', label: t('loans.telebirr'), icon: '📱' },
-                    { value: 'CBE', label: t('loans.cbe'), icon: '🏦' },
-                    { value: 'AWASH', label: t('loans.awash'), icon: '🏦' },
-                    { value: 'COOP', label: t('loans.coop'), icon: '🏦' },
+                    { value: 'CASH', label: t('loans_cash'), icon: '💵' },
+                    { value: 'TELEBIRR', label: t('loans_telebirr'), icon: '📱' },
+                    { value: 'CBE', label: t('loans_cbe'), icon: '🏦' },
+                    { value: 'AWASH', label: t('loans_awash'), icon: '🏦' },
+                    { value: 'COOP', label: t('loans_coop'), icon: '🏦' },
                   ].map(m => (
                     <label key={m.value} className={`flex cursor-pointer items-center gap-2 rounded-xl border p-3 text-sm transition-all ${
                       payMethod === m.value ? 'border-blue-800 bg-primary-50 text-blue-800' : 'border-gray-200 bg-white text-gray-700 hover:border-gray-300'
@@ -409,12 +409,12 @@ export default function LoanPaymentPage() {
                 <button type="submit" disabled={submitting}
                   className="flex-1 rounded-xl bg-blue-800 px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-primary-dark disabled:cursor-not-allowed disabled:opacity-50"
                 >
-                  {submitting ? t('common.processing') : t('loans.submitPayment')}
+                  {submitting ? t('common_processing') : t('loans_submitPayment')}
                 </button>
                 <button type="button" onClick={() => { setPayLoanId(null); setPayError(''); setPaySuccess(''); setPayMethod('CASH'); }}
                   className="flex-1 rounded-xl bg-gray-100 px-4 py-2.5 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-200"
                 >
-                  {t('common.cancel')}
+                  {t('common_cancel')}
                 </button>
               </div>
             </form>

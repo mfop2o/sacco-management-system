@@ -45,27 +45,27 @@ export default function TransactionsPage() {
   return (
     <div>
       <div className="mb-8">
-        <h2 className="text-2xl font-black text-text-dark dark:text-slate-100">{t('transactions.title')}</h2>
-        <p className="text-sm text-gray-500 mt-1">{t('transactions.subtitle')}</p>
+        <h2 className="text-2xl font-black text-text-dark dark:text-slate-100">{t('transactions_title')}</h2>
+        <p className="text-sm text-gray-500 mt-1">{t('transactions_subtitle')}</p>
       </div>
 
       <form onSubmit={handleSubmit} className="bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-blue-50 dark:border-slate-700 p-5 mb-6 flex gap-3 items-end">
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1.5">{t('transactions.searchBy')}</label>
+          <label className="block text-sm font-medium text-gray-700 mb-1.5">{t('transactions_searchBy')}</label>
           <select value={searchType} onChange={e => setSearchType(e.target.value as any)}
             className="px-3.5 py-2.5 border border-gray-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/15 focus:border-primary transition-all bg-white">
-            <option value="member">{t('transactions.memberId')}</option>
-            <option value="account">{t('transactions.accountId')}</option>
-            <option value="loan">{t('transactions.loanId')}</option>
+            <option value="member">{t('transactions_memberId')}</option>
+            <option value="account">{t('transactions_accountId')}</option>
+            <option value="loan">{t('transactions_loanId')}</option>
           </select>
         </div>
         <div className="flex-1">
-          <label className="block text-sm font-medium text-gray-700 mb-1.5">{searchType === 'member' ? t('transactions.memberId') : searchType === 'account' ? t('transactions.accountId') : t('transactions.loanId')}</label>
-          <input type="text" value={searchId} onChange={e => setSearchId(e.target.value)} placeholder={searchType === 'member' ? t('transactions.enterMemberId') : searchType === 'account' ? t('transactions.enterAccountId') : t('transactions.enterLoanId')}
+          <label className="block text-sm font-medium text-gray-700 mb-1.5">{searchType === 'member' ? t('transactions_memberId') : searchType === 'account' ? t('transactions_accountId') : t('transactions_loanId')}</label>
+          <input type="text" value={searchId} onChange={e => setSearchId(e.target.value)} placeholder={searchType === 'member' ? t('transactions_enterMemberId') : searchType === 'account' ? t('transactions_enterAccountId') : t('transactions_enterLoanId')}
             className="w-full px-3.5 py-2.5 border border-gray-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/15 focus:border-primary transition-all" />
         </div>
         <button type="submit" className="px-5 py-2.5 bg-primary text-white rounded-xl text-sm font-medium hover:bg-primary-dark transition-all shadow-lg shadow-primary/20">
-          {loading ? t('transactions.searching') : t('transactions.search')}
+          {loading ? t('transactions_searching') : t('transactions_search')}
         </button>
       </form>
 
@@ -74,13 +74,13 @@ export default function TransactionsPage() {
           <table className="w-full">
             <thead>
               <tr className="bg-primary-50 dark:bg-slate-700 border-b border-blue-100 dark:border-slate-600">
-                <th className="px-4 py-3.5 text-left text-xs font-semibold text-text-soft uppercase tracking-wider">{t('transactions.txNumber')}</th>
-                <th className="px-4 py-3.5 text-left text-xs font-semibold text-text-soft uppercase tracking-wider">{t('transactions.type')}</th>
-                <th className="px-4 py-3.5 text-left text-xs font-semibold text-text-soft uppercase tracking-wider">{t('transactions.amount')}</th>
-                <th className="px-4 py-3.5 text-left text-xs font-semibold text-text-soft uppercase tracking-wider">{t('transactions.description')}</th>
-                <th className="px-4 py-3.5 text-left text-xs font-semibold text-text-soft uppercase tracking-wider">{t('transactions.date')}</th>
-                <th className="px-4 py-3.5 text-left text-xs font-semibold text-text-soft uppercase tracking-wider">{t('transactions.status')}</th>
-                <th className="px-4 py-3.5 text-left text-xs font-semibold text-text-soft uppercase tracking-wider">{t('transactions.method')}</th>
+                <th className="px-4 py-3.5 text-left text-xs font-semibold text-text-soft uppercase tracking-wider">{t('transactions_txNumber')}</th>
+                <th className="px-4 py-3.5 text-left text-xs font-semibold text-text-soft uppercase tracking-wider">{t('transactions_type')}</th>
+                <th className="px-4 py-3.5 text-left text-xs font-semibold text-text-soft uppercase tracking-wider">{t('transactions_amount')}</th>
+                <th className="px-4 py-3.5 text-left text-xs font-semibold text-text-soft uppercase tracking-wider">{t('transactions_description')}</th>
+                <th className="px-4 py-3.5 text-left text-xs font-semibold text-text-soft uppercase tracking-wider">{t('transactions_date')}</th>
+                <th className="px-4 py-3.5 text-left text-xs font-semibold text-text-soft uppercase tracking-wider">{t('transactions_status')}</th>
+                <th className="px-4 py-3.5 text-left text-xs font-semibold text-text-soft uppercase tracking-wider">{t('transactions_method')}</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-100 dark:divide-slate-700">
@@ -101,8 +101,8 @@ export default function TransactionsPage() {
                   <td className="px-4 py-3.5 text-sm text-gray-500">{tx.paymentMethod?.replace(/_/g, ' ') || '-'}</td>
                 </tr>
               ))}
-              {!searched && <tr><td colSpan={7} className="px-4 py-12 text-center text-gray-500">{t('transactions.searchPrompt')}</td></tr>}
-              {searched && transactions.length === 0 && <tr><td colSpan={7} className="px-4 py-12 text-center text-gray-500">{t('transactions.noTransactions')}</td></tr>}
+              {!searched && <tr><td colSpan={7} className="px-4 py-12 text-center text-gray-500">{t('transactions_searchPrompt')}</td></tr>}
+              {searched && transactions.length === 0 && <tr><td colSpan={7} className="px-4 py-12 text-center text-gray-500">{t('transactions_noTransactions')}</td></tr>}
             </tbody>
           </table>
         </div>

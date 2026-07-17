@@ -3,6 +3,7 @@ import Layout from './components/Layout';
 import ProtectedRoute from './components/ProtectedRoute';
 import { AuthProvider } from './contexts/AuthContext';
 import DashboardPage from './pages/DashboardPage';
+import ForgotPasswordPage from './pages/ForgotPasswordPage';
 import LoanApplicationPage from './pages/LoanApplicationPage';
 import LoanApprovalPage from './pages/LoanApprovalPage';
 import LoanListPage from './pages/LoanListPage';
@@ -12,10 +13,12 @@ import MemberDetailPage from './pages/MemberDetailPage';
 import MemberListPage from './pages/MemberListPage';
 import MyLoansPage from './pages/MyLoansPage';
 import RepaymentPage from './pages/RepaymentPage';
+import ResetPasswordPage from './pages/ResetPasswordPage';
 import RolesPage from './pages/RolesPage';
 import SavingsPage from './pages/SavingsPage';
 import TransactionsPage from './pages/TransactionsPage';
 import UsersPage from './pages/UsersPage';
+import VerifyEmailPage from './pages/VerifyEmailPage';
 
 function App() {
   return (
@@ -23,6 +26,9 @@ function App() {
       <AuthProvider>
         <Routes>
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+          <Route path="/reset-password" element={<ResetPasswordPage />} />
+          <Route path="/verify-email" element={<VerifyEmailPage />} />
           <Route element={<ProtectedRoute><Layout /></ProtectedRoute>}>
             <Route path="/" element={<DashboardPage />} />
             <Route path="/members" element={<MemberListPage />} />
