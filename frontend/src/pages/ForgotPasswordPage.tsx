@@ -1,8 +1,9 @@
 import { useState, type FormEvent } from 'react';
-import { FiAlertTriangle, FiArrowLeft, FiCheck, FiMail } from 'react-icons/fi';
+import { FiAlertTriangle, FiArrowLeft, FiCheck } from 'react-icons/fi';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import api from '../services/api';
+import logo from '../assets/logo.png';
 
 export default function ForgotPasswordPage() {
   const [email, setEmail] = useState('');
@@ -52,9 +53,7 @@ export default function ForgotPasswordPage() {
       <div className="relative z-10 w-full max-w-sm">
         <div className="bg-white/90 backdrop-blur-md rounded-2xl shadow-xl shadow-blue-200/60 border border-white/80 p-8">
           <div className="flex flex-col items-center mb-7">
-            <div className="w-12 h-12 rounded-2xl bg-primary flex items-center justify-center shadow-lg shadow-primary/30 mb-4">
-              <FiMail className="w-5 h-5 text-white" />
-            </div>
+            <img src={logo} alt="SACCO Logo" className="w-12 h-12 rounded-2xl object-contain shadow-lg shadow-primary/30 mb-4" />
             <h1 className="text-xl font-black text-gray-900 tracking-tight">{t('forgot.title')}</h1>
             <p className="mt-1 text-xs text-gray-400 text-center">{t('forgot.subtitle')}</p>
           </div>

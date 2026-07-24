@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
-  FiBarChart2, FiCheck, FiCreditCard, FiDollarSign,
+  FiBarChart2, FiCheck, FiChevronLeft, FiChevronRight,
+  FiCreditCard, FiDollarSign,
   FiGlobe, FiKey, FiLogOut, FiMenu, FiMonitor,
   FiMoon, FiPlus, FiRepeat, FiSave, FiSettings,
   FiShield, FiSun, FiTrendingUp, FiUsers, FiX
@@ -9,6 +10,8 @@ import {
 import { NavLink } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { useTheme, type ThemeMode } from '../contexts/ThemeContext';
+import { useSidebar } from '../contexts/SidebarContext';
+import logo from '../assets/logo.png';
 
 const LANGUAGES = [
   { code: 'en', native: 'English' },
@@ -39,12 +42,14 @@ const NAV_ITEMS = [
 
 function SidebarContent({
   onClose,
+  collapsed, onToggleCollapse,
   showProfile, setShowProfile,
   showLang, setShowLang,
   showTheme, setShowTheme,
   profileRef, langRef, themeRef,
 }: {
   onClose: () => void;
+  collapsed: boolean; onToggleCollapse: () => void;
   showProfile: boolean; setShowProfile: (v: boolean) => void;
   showLang: boolean; setShowLang: (v: boolean) => void;
   showTheme: boolean; setShowTheme: (v: boolean) => void;
@@ -67,23 +72,36 @@ function SidebarContent({
   return (
     <div className="flex flex-col h-full overflow-hidden">
 
-      {/* Logo */}
-      <div className="px-4 py-3.5 border-b border-blue-50 dark:border-slate-700 flex items-center justify-between shrink-0">
-        <div className="flex items-center gap-2.5">
-          <div className="w-7 h-7 bg-primary rounded-lg flex items-center justify-center text-white font-extrabold text-xs shadow-sm shadow-primary/30 shrink-0">H</div>
-          <div>
-            <div className="text-xs font-extrabold text-text-dark tracking-wide">HUNDAAF</div>
-            <div className="text-[9px] font-semibold text-text-soft uppercase tracking-widest">SACCO Portal</div>
-          </div>
+      {/* Logo + collapse toggle */}
+      <div className="px-3 py-3 border-b border-blue-50 dark:border-slate-700 flex items-center justify-between shrink-0">
+        <div className="flex items-center gap-2.5 min-w-0">
+          <img src={logo} alt="SACCO" className="w-7 h-7 rounded-lg object-contain shadow-sm shrink-0" />
+          {!collapsed && (
+            <div className="min-w-0">
+              <div className="text-xs font-extrabold text-text-dark tracking-wide truncate">HUNDAAF</div>
+              <div className="text-[9px] font-semibold text-text-soft uppercase tracking-widest truncate">SACCO Portal</div>
+            </div>
+          )}
         </div>
-        <button onClick={onClose} className="lg:hidden p-1 rounded-md text-text-soft hover:bg-primary-50">
-          <FiX className="w-4 h-4" />
-        </button>
+        <div className="flex items-center gap-1 shrink-0">
+          <button onClick={onClose} className="lg:hidden p-1 rounded-md text-text-soft hover:bg-primary-50">
+            <FiX className="w-4 h-4" />
+          </button>
+          <button
+            onClick={onToggleCollapse}
+            className="hidden lg:flex w-6 h-6 rounded-md items-center justify-center text-text-soft hover:bg-primary-50 hover:text-primary transition-colors"
+            title={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+          >
+            {collapsed ? <FiChevronRight className="w-3.5 h-3.5" /> : <FiChevronLeft className="w-3.5 h-3.5" />}
+          </button>
+        </div>
       </div>
 
-      {/* Nav */}
-      <nav className="flex-1 min-h-0 px-2.5 py-3 overflow-y-auto space-y-0.5">
-        <p className="px-2.5 text-[9px] font-bold text-text-soft uppercase tracking-widest mb-1.5">{t('sidebar_menu')}</p>
+      {/* Nav — scrollable */}
+      <nav className="flex-1 min-h-0 px-2 py-3 overflow-y-auto space-y-0.5 scrollbar-thin">
+        {!collapsed && (
+          <p className="px-2.5 text-[9px] font-bold text-text-soft uppercase tracking-widest mb-1.5">{t('sidebar_menu')}</p>
+        )}
         {NAV_ITEMS.map(item => {
           if (item.roles && !hasRole(item.roles)) return null;
           return (
@@ -92,8 +110,9 @@ function SidebarContent({
               to={item.to}
               end={item.exact}
               onClick={onClose}
+              title={collapsed ? t(item.key) : undefined}
               className={({ isActive }) =>
-                `flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-xs font-medium transition-all duration-150 ${isActive
+                `flex items-center gap-2.5 rounded-lg text-xs font-medium transition-all duration-150 ${collapsed ? 'px-0 py-2 justify-center' : 'px-2.5 py-2'} ${isActive
                   ? 'bg-primary text-white shadow-sm shadow-primary/25'
                   : 'text-text-mid hover:text-primary hover:bg-primary-50'
                 }`
@@ -104,7 +123,7 @@ function SidebarContent({
                   <span className={`flex items-center justify-center w-6 h-6 rounded-md shrink-0 transition-all ${isActive ? 'bg-white/20' : 'bg-primary-100'}`}>
                     <item.icon className={`w-3.5 h-3.5 ${isActive ? 'text-white' : 'text-primary'}`} />
                   </span>
-                  <span>{t(item.key)}</span>
+                  {!collapsed && <span>{t(item.key)}</span>}
                 </>
               )}
             </NavLink>
@@ -113,20 +132,23 @@ function SidebarContent({
       </nav>
 
       {/* Bottom toolbar */}
-      <div className="shrink-0 border-t border-blue-50 dark:border-slate-700 px-2.5 py-2.5">
-        <div className="flex items-center gap-1">
+      <div className="shrink-0 border-t border-blue-50 dark:border-slate-700 px-2 py-2">
+        <div className={`flex items-center ${collapsed ? 'flex-col gap-1' : 'gap-1'}`}>
 
           {/* Profile */}
-          <div className="relative flex-1" ref={profileRef}>
+          <div className={`${collapsed ? 'w-full' : 'relative flex-1'}`} ref={profileRef}>
             <button
               onClick={() => { setShowProfile(!showProfile); setShowLang(false); setShowTheme(false); }}
-              className="w-full flex items-center gap-1.5 px-2 py-1.5 rounded-lg hover:bg-primary-50 transition-colors"
+              className={`w-full flex items-center gap-1.5 rounded-lg hover:bg-primary-50 transition-colors ${collapsed ? 'justify-center px-1 py-2' : 'px-2 py-1.5'}`}
+              title={collapsed ? user?.fullName : undefined}
             >
               <div className="w-6 h-6 rounded-full bg-primary flex items-center justify-center text-white text-[9px] font-bold shrink-0">{initials}</div>
-              <div className="flex-1 min-w-0 text-left">
-                <p className="text-[11px] font-semibold text-text-dark truncate leading-tight">{user?.fullName?.split(' ')[0]}</p>
-                <p className="text-[9px] text-text-soft truncate capitalize">{user?.role?.toLowerCase().replace(/_/g, ' ')}</p>
-              </div>
+              {!collapsed && (
+                <div className="flex-1 min-w-0 text-left">
+                  <p className="text-[11px] font-semibold text-text-dark truncate leading-tight">{user?.fullName?.split(' ')[0]}</p>
+                  <p className="text-[9px] text-text-soft truncate capitalize">{user?.role?.toLowerCase().replace(/_/g, ' ')}</p>
+                </div>
+              )}
             </button>
 
             {showProfile && (
@@ -162,65 +184,132 @@ function SidebarContent({
           </div>
 
           {/* Language */}
-          <div className="relative" ref={langRef}>
-            <button
-              onClick={() => { setShowLang(!showLang); setShowProfile(false); setShowTheme(false); }}
-              className="w-7 h-7 rounded-lg hover:bg-primary-50 flex items-center justify-center text-text-soft hover:text-primary transition-colors"
-              title={t('sidebar_language')}
-            >
-              <FiGlobe className="w-3.5 h-3.5" />
-            </button>
-            {showLang && (
-              <div className="absolute bottom-full right-0 mb-2 w-44 bg-white dark:bg-slate-800 rounded-xl shadow-xl border border-blue-50 dark:border-slate-700 overflow-hidden z-50">
-                <p className="px-3 py-2 text-[9px] font-bold text-text-soft uppercase tracking-widest border-b border-blue-50 dark:border-slate-700">{t('sidebar_language')}</p>
-                {LANGUAGES.map(lang => (
-                  <button
-                    key={lang.code}
-                    onClick={() => changeLanguage(lang.code)}
-                    className={`w-full flex items-center justify-between px-3 py-2 text-xs transition-colors ${i18n.language === lang.code
-                      ? 'bg-primary-50 text-primary font-semibold'
-                      : 'text-text-mid hover:bg-primary-50 hover:text-primary'
-                      }`}
-                  >
-                    <span>{lang.native}</span>
-                    {i18n.language === lang.code && <FiCheck className="w-3 h-3 text-primary" />}
-                  </button>
-                ))}
-              </div>
-            )}
-          </div>
+          {!collapsed && (
+            <div className="relative" ref={langRef}>
+              <button
+                onClick={() => { setShowLang(!showLang); setShowProfile(false); setShowTheme(false); }}
+                className="w-7 h-7 rounded-lg hover:bg-primary-50 flex items-center justify-center text-text-soft hover:text-primary transition-colors"
+                title={t('sidebar_language')}
+              >
+                <FiGlobe className="w-3.5 h-3.5" />
+              </button>
+              {showLang && (
+                <div className="absolute bottom-full right-0 mb-2 w-44 bg-white dark:bg-slate-800 rounded-xl shadow-xl border border-blue-50 dark:border-slate-700 overflow-hidden z-50">
+                  <p className="px-3 py-2 text-[9px] font-bold text-text-soft uppercase tracking-widest border-b border-blue-50 dark:border-slate-700">{t('sidebar_language')}</p>
+                  {LANGUAGES.map(lang => (
+                    <button
+                      key={lang.code}
+                      onClick={() => changeLanguage(lang.code)}
+                      className={`w-full flex items-center justify-between px-3 py-2 text-xs transition-colors ${i18n.language === lang.code
+                        ? 'bg-primary-50 text-primary font-semibold'
+                        : 'text-text-mid hover:bg-primary-50 hover:text-primary'
+                        }`}
+                    >
+                      <span>{lang.native}</span>
+                      {i18n.language === lang.code && <FiCheck className="w-3 h-3 text-primary" />}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
 
           {/* Theme */}
-          <div className="relative" ref={themeRef}>
-            <button
-              onClick={() => { setShowTheme(!showTheme); setShowProfile(false); setShowLang(false); }}
-              className="w-7 h-7 rounded-lg hover:bg-primary-50 flex items-center justify-center text-text-soft hover:text-primary transition-colors"
-              title={t('sidebar_theme')}
-            >
-              {mode === 'dark' ? <FiMoon className="w-3.5 h-3.5" /> : mode === 'system' ? <FiMonitor className="w-3.5 h-3.5" /> : <FiSun className="w-3.5 h-3.5" />}
-            </button>
-            {showTheme && (
-              <div className="absolute bottom-full right-0 mb-2 w-44 bg-white dark:bg-slate-800 rounded-xl shadow-xl border border-blue-50 dark:border-slate-700 overflow-hidden z-50">
-                <p className="px-3 py-2 text-[9px] font-bold text-text-soft uppercase tracking-widest border-b border-blue-50 dark:border-slate-700">{t('sidebar_theme')}</p>
-                {THEMES.map(th => (
-                  <button
-                    key={th.value}
-                    onClick={() => { setMode(th.value); setShowTheme(false); }}
-                    className={`w-full flex items-center justify-between px-3 py-2 text-xs transition-colors ${mode === th.value
-                      ? 'bg-primary-50 text-primary font-semibold'
-                      : 'text-text-mid hover:bg-primary-50 hover:text-primary'
-                      }`}
-                  >
-                    <span className="flex items-center gap-2">
-                      <th.icon className="w-3 h-3" />
-                      {t(th.key)}
-                    </span>
-                    {mode === th.value && <FiCheck className="w-3 h-3 text-primary" />}
-                  </button>
-                ))}
+          {!collapsed && (
+            <div className="relative" ref={themeRef}>
+              <button
+                onClick={() => { setShowTheme(!showTheme); setShowProfile(false); setShowLang(false); }}
+                className="w-7 h-7 rounded-lg hover:bg-primary-50 flex items-center justify-center text-text-soft hover:text-primary transition-colors"
+                title={t('sidebar_theme')}
+              >
+                {mode === 'dark' ? <FiMoon className="w-3.5 h-3.5" /> : mode === 'system' ? <FiMonitor className="w-3.5 h-3.5" /> : <FiSun className="w-3.5 h-3.5" />}
+              </button>
+              {showTheme && (
+                <div className="absolute bottom-full right-0 mb-2 w-44 bg-white dark:bg-slate-800 rounded-xl shadow-xl border border-blue-50 dark:border-slate-700 overflow-hidden z-50">
+                  <p className="px-3 py-2 text-[9px] font-bold text-text-soft uppercase tracking-widest border-b border-blue-50 dark:border-slate-700">{t('sidebar_theme')}</p>
+                  {THEMES.map(th => (
+                    <button
+                      key={th.value}
+                      onClick={() => { setMode(th.value); setShowTheme(false); }}
+                      className={`w-full flex items-center justify-between px-3 py-2 text-xs transition-colors ${mode === th.value
+                        ? 'bg-primary-50 text-primary font-semibold'
+                        : 'text-text-mid hover:bg-primary-50 hover:text-primary'
+                        }`}
+                    >
+                      <span className="flex items-center gap-2">
+                        <th.icon className="w-3 h-3" />
+                        {t(th.key)}
+                      </span>
+                      {mode === th.value && <FiCheck className="w-3 h-3 text-primary" />}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* Collapsed-only: language + theme icons stacked */}
+          {collapsed && (
+            <>
+              <div className="relative" ref={langRef}>
+                <button
+                  onClick={() => { setShowLang(!showLang); setShowProfile(false); setShowTheme(false); }}
+                  className="w-full flex items-center justify-center p-1.5 rounded-lg hover:bg-primary-50 text-text-soft hover:text-primary transition-colors"
+                  title={t('sidebar_language')}
+                >
+                  <FiGlobe className="w-3.5 h-3.5" />
+                </button>
+                {showLang && (
+                  <div className="absolute bottom-full left-full ml-2 mb-0 w-44 bg-white dark:bg-slate-800 rounded-xl shadow-xl border border-blue-50 dark:border-slate-700 overflow-hidden z-50">
+                    <p className="px-3 py-2 text-[9px] font-bold text-text-soft uppercase tracking-widest border-b border-blue-50 dark:border-slate-700">{t('sidebar_language')}</p>
+                    {LANGUAGES.map(lang => (
+                      <button
+                        key={lang.code}
+                        onClick={() => changeLanguage(lang.code)}
+                        className={`w-full flex items-center justify-between px-3 py-2 text-xs transition-colors ${i18n.language === lang.code
+                          ? 'bg-primary-50 text-primary font-semibold'
+                          : 'text-text-mid hover:bg-primary-50 hover:text-primary'
+                          }`}
+                      >
+                        <span>{lang.native}</span>
+                        {i18n.language === lang.code && <FiCheck className="w-3 h-3 text-primary" />}
+                      </button>
+                    ))}
+                  </div>
+                )}
               </div>
-            )}
-          </div>
+              <div className="relative" ref={themeRef}>
+                <button
+                  onClick={() => { setShowTheme(!showTheme); setShowProfile(false); setShowLang(false); }}
+                  className="w-full flex items-center justify-center p-1.5 rounded-lg hover:bg-primary-50 text-text-soft hover:text-primary transition-colors"
+                  title={t('sidebar_theme')}
+                >
+                  {mode === 'dark' ? <FiMoon className="w-3.5 h-3.5" /> : mode === 'system' ? <FiMonitor className="w-3.5 h-3.5" /> : <FiSun className="w-3.5 h-3.5" />}
+                </button>
+                {showTheme && (
+                  <div className="absolute bottom-full left-full ml-2 mb-0 w-44 bg-white dark:bg-slate-800 rounded-xl shadow-xl border border-blue-50 dark:border-slate-700 overflow-hidden z-50">
+                    <p className="px-3 py-2 text-[9px] font-bold text-text-soft uppercase tracking-widest border-b border-blue-50 dark:border-slate-700">{t('sidebar_theme')}</p>
+                    {THEMES.map(th => (
+                      <button
+                        key={th.value}
+                        onClick={() => { setMode(th.value); setShowTheme(false); }}
+                        className={`w-full flex items-center justify-between px-3 py-2 text-xs transition-colors ${mode === th.value
+                          ? 'bg-primary-50 text-primary font-semibold'
+                          : 'text-text-mid hover:bg-primary-50 hover:text-primary'
+                          }`}
+                      >
+                        <span className="flex items-center gap-2">
+                          <th.icon className="w-3 h-3" />
+                          {t(th.key)}
+                        </span>
+                        {mode === th.value && <FiCheck className="w-3 h-3 text-primary" />}
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </>
+          )}
 
         </div>
       </div>
@@ -230,6 +319,7 @@ function SidebarContent({
 
 export default function Sidebar() {
   const [open, setOpen] = useState(false);
+  const { collapsed, toggleCollapse } = useSidebar();
   const [showProfile, setShowProfile] = useState(false);
   const [showLang, setShowLang] = useState(false);
   const [showTheme, setShowTheme] = useState(false);
@@ -250,6 +340,7 @@ export default function Sidebar() {
 
   const contentProps = {
     onClose: () => setOpen(false),
+    collapsed, onToggleCollapse: toggleCollapse,
     showProfile, setShowProfile,
     showLang, setShowLang,
     showTheme, setShowTheme,
@@ -274,13 +365,13 @@ export default function Sidebar() {
         />
       )}
 
-      {/* Mobile drawer */}
+      {/* Mobile drawer — always full width */}
       <aside className={`lg:hidden fixed inset-y-0 left-0 z-50 w-64 bg-white dark:bg-slate-900 border-r border-blue-100 dark:border-slate-700 shadow-xl transition-transform duration-300 ${open ? 'translate-x-0' : '-translate-x-full'}`}>
-        <SidebarContent {...contentProps} />
+        <SidebarContent {...contentProps} collapsed={false} />
       </aside>
 
-      {/* Desktop sidebar */}
-      <aside className="hidden lg:flex flex-col w-56 fixed inset-y-0 left-0 z-30 bg-white dark:bg-slate-900 border-r border-blue-100 dark:border-slate-700 shadow-sm">
+      {/* Desktop sidebar — collapsible */}
+      <aside className={`hidden lg:flex flex-col fixed inset-y-0 left-0 z-30 bg-white dark:bg-slate-900 border-r border-blue-100 dark:border-slate-700 shadow-sm transition-all duration-300 ${collapsed ? 'w-16' : 'w-56'}`}>
         <SidebarContent {...contentProps} />
       </aside>
     </>

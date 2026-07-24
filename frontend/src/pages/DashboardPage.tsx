@@ -72,7 +72,7 @@ const ChartTooltip = ({ active, payload, label }: ChartTooltipProps) => {
         <p className="font-bold text-text-dark mb-1">{label}</p>
         {payload.map((e) => (
           <p key={e.name} style={{ color: e.color }}>
-            {e.name}: <span className="font-bold">${e.value.toLocaleString()}</span>
+            {e.name}: <span className="font-bold">ETB {e.value.toLocaleString()}</span>
           </p>
         ))}
       </div>
@@ -112,14 +112,14 @@ export default function DashboardPage() {
   const chartData = chartPeriod === '6m' ? monthlyData.slice(6) : monthlyData;
 
   const fmtVal = (v: number, f: string) =>
-    f === '$'
-      ? `$${v.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
+    f === 'ETB'
+      ? `ETB ${v.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
       : v.toLocaleString();
 
   const statTiles = [
     { label: td('totalMembers'), value: data?.totalMembers ?? 0, fmt: 'n', sub: `${data?.activeMembers ?? 0} ${td('active')}` },
-    { label: td('totalSavings'), value: data?.totalSavings ?? 0, fmt: '$', sub: td('portfolioBalance') },
-    { label: td('loanPortfolio'), value: data?.totalLoanOutstanding ?? 0, fmt: '$', sub: `${data?.activeLoans ?? 0} ${td('activeLoans')}` },
+    { label: td('totalSavings'), value: data?.totalSavings ?? 0, fmt: 'ETB', sub: td('portfolioBalance') },
+    { label: td('loanPortfolio'), value: data?.totalLoanOutstanding ?? 0, fmt: 'ETB', sub: `${data?.activeLoans ?? 0} ${td('activeLoans')}` },
     { label: td('pendingApprovals'), value: data?.pendingApprovals ?? 0, fmt: 'n', sub: td('awaitingReview') },
   ];
 
@@ -231,7 +231,7 @@ export default function DashboardPage() {
                 </defs>
                 <CartesianGrid strokeDasharray="3 3" stroke="#F0F8FF" vertical={false} />
                 <XAxis dataKey="month" tick={{ fontSize: 11, fill: '#94A3B8' }} axisLine={false} tickLine={false} />
-                <YAxis tick={{ fontSize: 11, fill: '#94A3B8' }} axisLine={false} tickLine={false} tickFormatter={v => `$${(v / 1000).toFixed(0)}k`} />
+                <YAxis tick={{ fontSize: 11, fill: '#94A3B8' }} axisLine={false} tickLine={false} tickFormatter={v => `ETB ${(v / 1000).toFixed(0)}k`} />
                 <Tooltip content={<ChartTooltip />} />
                 <Legend wrapperStyle={{ fontSize: 12 }} />
                 <Area type="monotone" dataKey="savings" name="Savings" stroke="#60A5FA" strokeWidth={2.5} fill="url(#gSavings)" dot={false} activeDot={{ r: 5 }} />
@@ -293,7 +293,7 @@ export default function DashboardPage() {
               <BarChart data={chartData} barGap={4} margin={{ top: 0, right: 4, left: 0, bottom: 0 }}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#F0F8FF" vertical={false} />
                 <XAxis dataKey="month" tick={{ fontSize: 11, fill: '#94A3B8' }} axisLine={false} tickLine={false} />
-                <YAxis tick={{ fontSize: 11, fill: '#94A3B8' }} axisLine={false} tickLine={false} tickFormatter={v => `$${(v / 1000).toFixed(0)}k`} />
+                <YAxis tick={{ fontSize: 11, fill: '#94A3B8' }} axisLine={false} tickLine={false} tickFormatter={v => `ETB ${(v / 1000).toFixed(0)}k`} />
                 <Tooltip content={<ChartTooltip />} />
                 <Legend wrapperStyle={{ fontSize: 12 }} />
                 <Bar dataKey="savings" name="Savings" fill="#60A5FA" radius={[4, 4, 0, 0]} maxBarSize={16} />
@@ -332,7 +332,7 @@ export default function DashboardPage() {
                       ))}
                     </Pie>
                     <Tooltip
-                      formatter={(v: number, n: string) => [`$${v.toLocaleString()}`, n]}
+                      formatter={(v: number, n: string) => [`ETB ${v.toLocaleString()}`, n]}
                       contentStyle={{ borderRadius: '12px', border: '1px solid #DBEAFE', fontSize: 12 }}
                     />
                   </PieChart>
@@ -340,7 +340,7 @@ export default function DashboardPage() {
                 <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
                   <span className="text-[10px] font-semibold text-text-soft uppercase tracking-wider">{t('dashboard_total')}</span>
                   <span className="text-lg font-black text-text-dark leading-tight">
-                    ${donutTotal >= 1000 ? `${(donutTotal / 1000).toFixed(1)}k` : donutTotal.toLocaleString()}
+                    ETB {donutTotal >= 1000 ? `${(donutTotal / 1000).toFixed(1)}k` : donutTotal.toLocaleString()}
                   </span>
                 </div>
               </div>
@@ -369,7 +369,7 @@ export default function DashboardPage() {
                         <p className="text-[11px] text-text-soft">{new Date(tx.transactionDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}</p>
                       </div>
                       <p className={`text-xs font-bold shrink-0 ${income ? 'text-primary' : 'text-blue-400'}`}>
-                        {income ? '+' : '-'}${Number(tx.amount).toLocaleString()}
+                        {income ? '+' : '-'}ETB {Number(tx.amount).toLocaleString()}
                       </p>
                     </div>
                   );
@@ -378,8 +378,8 @@ export default function DashboardPage() {
                 [
                   { label: t('members_title'), value: data.totalMembers.toLocaleString() },
                   { label: t('dashboard_activeLoans'), value: data.activeLoans.toLocaleString() },
-                  { label: t('dashboard_totalSavings'), value: `$${Number(data.totalSavings).toLocaleString()}` },
-                  { label: 'Shares', value: `$${Number(data.totalSharesValue).toLocaleString()}` },
+                  { label: t('dashboard_totalSavings'), value: `ETB ${Number(data.totalSavings).toLocaleString()}` },
+                  { label: 'Shares', value: `ETB ${Number(data.totalSharesValue).toLocaleString()}` },
                   { label: t('dashboard_pendingApprovals'), value: data.pendingApprovals.toLocaleString() },
                 ].map(item => (
                   <div key={item.label} className="flex items-center justify-between py-2.5">

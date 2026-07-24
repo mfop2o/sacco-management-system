@@ -225,12 +225,12 @@ export default function RepaymentPage() {
                             <div className="flex items-center gap-4">
                                 <div className="text-right">
                                     <p className="text-xs text-text-soft">{t('repayment_outstanding')}</p>
-                                    <p className="text-sm font-black text-text-dark">${Number(loan.outstandingBalance).toLocaleString()}</p>
+                                    <p className="text-sm font-black text-text-dark">ETB {Number(loan.outstandingBalance).toLocaleString()}</p>
                                 </div>
                                 {loan.arrearsAmount > 0 && (
                                     <div className="text-right">
                                         <p className="text-xs text-text-soft">{t('repayment_arrears')}</p>
-                                        <p className="text-sm font-bold text-red-500">${Number(loan.arrearsAmount).toLocaleString()}</p>
+                                        <p className="text-sm font-bold text-red-500">ETB {Number(loan.arrearsAmount).toLocaleString()}</p>
                                     </div>
                                 )}
                                 <FiChevronRight className="w-4 h-4 text-text-soft group-hover:text-primary transition-colors" />
@@ -278,8 +278,8 @@ export default function RepaymentPage() {
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                         {[
                             { label: t('repayment_loanInfo'), value: selectedLoan.loanNumber },
-                            { label: t('repayment_outstanding'), value: `$${Number(selectedLoan.outstandingBalance).toLocaleString()}` },
-                            { label: t('repayment_arrears'), value: `$${Number(selectedLoan.arrearsAmount).toLocaleString()}` },
+                            { label: t('repayment_outstanding'), value: `ETB ${Number(selectedLoan.outstandingBalance).toLocaleString()}` },
+                            { label: t('repayment_arrears'), value: `ETB ${Number(selectedLoan.arrearsAmount).toLocaleString()}` },
                         ].map(i => (
                             <div key={i.label} className="bg-primary-50 rounded-xl p-3 text-center">
                                 <p className="text-[10px] text-text-soft uppercase tracking-wider font-semibold">{i.label}</p>
@@ -292,14 +292,14 @@ export default function RepaymentPage() {
                     <div>
                         <label className="block text-sm font-semibold text-text-dark mb-1.5">{t('repayment_enterAmount')}</label>
                         <div className="relative">
-                            <span className="absolute inset-y-0 left-0 pl-4 flex items-center text-text-soft font-bold text-sm">$</span>
+                            <span className="absolute inset-y-0 left-0 pl-4 flex items-center text-text-soft font-bold text-sm">ETB</span>
                             <input type="number" step="0.01" min="0.01"
                                 value={amount} onChange={e => setAmount(e.target.value)}
                                 placeholder="0.00" autoFocus
                                 className="w-full pl-8 pr-4 py-3 rounded-xl border border-primary-100 bg-primary-50 text-text-dark font-bold text-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary focus:bg-white transition-all" />
                         </div>
                         <p className="text-xs text-text-soft mt-1.5">
-                            {t('repayment_minimum')}: $1.00 · {t('repayment_outstanding')}: <span className="font-semibold text-text-mid">${Number(selectedLoan.outstandingBalance).toLocaleString()}</span>
+                            {t('repayment_minimum')}: ETB 1.00 · {t('repayment_outstanding')}: <span className="font-semibold text-text-mid">ETB {Number(selectedLoan.outstandingBalance).toLocaleString()}</span>
                         </p>
                     </div>
 
@@ -327,7 +327,7 @@ export default function RepaymentPage() {
                 <div className="bg-white rounded-2xl border border-blue-50 shadow-sm shadow-blue-100 p-6 space-y-5">
                     <div className="text-center pb-2">
                         <p className="text-xs font-bold text-text-soft uppercase tracking-widest mb-1">{t('repayment_confirm')}</p>
-                        <p className="text-3xl font-black text-text-dark">${parseFloat(amount).toLocaleString(undefined, { minimumFractionDigits: 2 })}</p>
+                        <p className="text-3xl font-black text-text-dark">ETB {parseFloat(amount).toLocaleString(undefined, { minimumFractionDigits: 2 })}</p>
                     </div>
 
                     {/* Summary */}
@@ -335,7 +335,7 @@ export default function RepaymentPage() {
                         {[
                             { label: t('repayment_loan'), value: selectedLoan.loanNumber },
                             { label: t('repayment_method'), value: selectedMethod.label },
-                            { label: t('common_amount'), value: `$${parseFloat(amount).toLocaleString(undefined, { minimumFractionDigits: 2 })}` },
+                            { label: t('common_amount'), value: `ETB ${parseFloat(amount).toLocaleString(undefined, { minimumFractionDigits: 2 })}` },
                             ...(reference ? [{ label: t('common_reference'), value: reference }] : []),
                         ].map(row => (
                             <div key={row.label} className="flex justify-between px-4 py-3">
@@ -391,7 +391,7 @@ export default function RepaymentPage() {
                         {[
                             { label: t('repayment_loan'), value: selectedLoan.loanNumber },
                             { label: t('repayment_method'), value: selectedMethod.label },
-                            { label: t('common_amount'), value: `$${parseFloat(amount).toLocaleString(undefined, { minimumFractionDigits: 2 })}` },
+                            { label: t('common_amount'), value: `ETB ${parseFloat(amount).toLocaleString(undefined, { minimumFractionDigits: 2 })}` },
                         ].map(row => (
                             <div key={row.label} className="flex justify-between px-4 py-3">
                                 <span className="text-xs font-semibold text-text-soft uppercase tracking-wider">{row.label}</span>

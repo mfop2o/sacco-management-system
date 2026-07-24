@@ -3,6 +3,7 @@ import { FiAlertTriangle, FiEye, FiEyeOff, FiLock, FiUser } from 'react-icons/fi
 import { Link, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../contexts/AuthContext';
+import logo from '../assets/logo.png';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
@@ -60,9 +61,7 @@ export default function LoginPage() {
 
           {/* Logo + Heading */}
           <div className="flex flex-col items-center mb-7">
-            <div className="w-12 h-12 rounded-2xl bg-primary flex items-center justify-center shadow-lg shadow-primary/30 mb-4">
-              <span className="text-lg font-black text-white tracking-tight">H</span>
-            </div>
+            <img src={logo} alt="SACCO Logo" className="w-14 h-14 rounded-2xl object-contain shadow-lg shadow-primary/30 mb-4" />
             <h1 className="text-xl font-black text-gray-900 tracking-tight">{t('login.title')}</h1>
             <p className="mt-1 text-xs text-gray-400">{t('login.subtitle')}</p>
           </div>

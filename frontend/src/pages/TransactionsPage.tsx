@@ -88,7 +88,7 @@ export default function TransactionsPage() {
                 <tr key={tx.id} className={`hover:bg-primary-50 dark:hover:bg-slate-700 transition-colors ${i % 2 === 0 ? 'bg-white dark:bg-slate-800' : 'bg-primary-50/40 dark:bg-slate-700/40'}`}>
                   <td className="px-4 py-3.5 text-sm font-medium text-gray-900">{tx.transactionNumber}</td>
                   <td className="px-4 py-3.5 text-sm text-gray-700">{tx.transactionType.replace(/_/g, ' ')}</td>
-                  <td className="px-4 py-3.5 text-sm font-bold text-gray-900">${Number(tx.amount).toLocaleString()}</td>
+                  <td className="px-4 py-3.5 text-sm font-bold text-gray-900">ETB {Number(tx.amount).toLocaleString()}</td>
                   <td className="px-4 py-3.5 text-sm text-gray-500 max-w-[200px] truncate">{tx.description || '-'}</td>
                   <td className="px-4 py-3.5 text-sm text-gray-500">{new Date(tx.transactionDate).toLocaleDateString()}</td>
                   <td className="px-4 py-3.5">

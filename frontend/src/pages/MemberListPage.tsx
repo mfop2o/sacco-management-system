@@ -184,11 +184,11 @@ export default function MemberListPage() {
       )}
 
       {deleteId && (
-        <div className="fixed inset-0 z-50 bg-white dark:bg-slate-900 overflow-y-auto flex flex-col" onClick={() => setDeleteId(null)}>
-          <div className="w-full flex-1 p-6 md:p-10 flex flex-col justify-center" onClick={e => e.stopPropagation()}>
-            <div className="text-center mb-3">
-              <div className="w-11 h-11 bg-primary rounded-full flex items-center justify-center mx-auto mb-2 shadow-lg shadow-primary/20">
-                <FiTrash2 className="text-lg text-white" />
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm" onClick={() => setDeleteId(null)}>
+          <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-2xl border border-blue-50 dark:border-slate-700 p-6 w-full max-w-xs mx-4" onClick={e => e.stopPropagation()}>
+            <div className="text-center mb-4">
+              <div className="w-11 h-11 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                <FiTrash2 className="w-5 h-5 text-red-500" />
               </div>
               <h3 className="text-sm font-bold text-text-dark">{t('members_archive')}</h3>
               <p className="text-xs text-gray-500 mt-1">{t('members_archiveConfirm')}</p>

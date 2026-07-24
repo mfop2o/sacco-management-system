@@ -38,7 +38,6 @@ export default function LoanListPage() {
   const [loans, setLoans] = useState<Loan[]>([]);
   const [loading, setLoading] = useState(true);
   const [actionMsg, setActionMsg] = useState({ text: '', type: '' });
-  const [_showDisburseModal, setShowDisburseModal] = useState('');
   const [repayLoanId, setRepayLoanId] = useState('');
   const [repayAmount, setRepayAmount] = useState('');
   const [showRepayModal, setShowRepayModal] = useState(false);
@@ -178,7 +177,7 @@ export default function LoanListPage() {
                   <td className="px-3 py-2.5 text-xs font-medium text-gray-900">{loan.loanNumber}</td>
                   <td className="px-3 py-2.5 text-xs text-gray-700">{loan.memberName}</td>
                   <td className="px-3 py-2.5 text-xs text-gray-700">{loan.loanType.replace(/_/g, ' ')}</td>
-                  <td className="px-3 py-2.5 text-xs text-gray-900 font-medium">${Number(loan.principalAmount).toLocaleString()}</td>
+                  <td className="px-3 py-2.5 text-xs text-gray-900 font-medium">ETB {Number(loan.principalAmount).toLocaleString()}</td>
                   <td className="px-3 py-2.5 text-xs text-gray-700">{loan.interestRate}%</td>
                   <td className="px-3 py-2.5 text-xs text-gray-700">{loan.durationMonths}m</td>
                   <td className="px-3 py-2.5">
@@ -186,7 +185,7 @@ export default function LoanListPage() {
                       {loan.status.replace(/_/g, ' ')}
                     </span>
                   </td>
-                  <td className="px-3 py-2.5 text-xs font-medium text-gray-900">${Number(loan.outstandingBalance).toLocaleString()}</td>
+                  <td className="px-3 py-2.5 text-xs font-medium text-gray-900">ETB {Number(loan.outstandingBalance).toLocaleString()}</td>
                   <td className="px-3 py-2.5 text-right">
                     <div className="flex items-center justify-end gap-1">
                       <button onClick={() => setViewLoan(loan)} title={t('loans_view')} className="p-1.5 text-primary bg-primary-50 rounded-lg hover:bg-primary hover:text-white flex items-center justify-center transition-colors">
@@ -232,18 +231,18 @@ export default function LoanListPage() {
       </div>
 
       {showApproveModal && (
-        <div className="fixed inset-0 z-50 bg-white dark:bg-slate-900 overflow-y-auto flex flex-col" onClick={() => setShowApproveModal('')}>
-          <div className="w-full flex-1 p-6 md:p-10 flex flex-col justify-center" onClick={e => e.stopPropagation()}>
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm" onClick={() => setShowApproveModal('')}>
+          <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-2xl border border-blue-50 dark:border-slate-700 p-6 w-full max-w-xs mx-4" onClick={e => e.stopPropagation()}>
             <div className="text-center mb-4">
-              <div className="w-14 h-14 bg-primary rounded-full flex items-center justify-center mx-auto mb-3 shadow-lg shadow-primary/20">
-                <FiCheck className="text-2xl text-white" />
+              <div className="w-11 h-11 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-3">
+                <FiCheck className="w-5 h-5 text-primary" />
               </div>
-              <h3 className="text-lg font-bold text-text-dark">{t('loans_approveLoan')}</h3>
-              <p className="text-sm text-gray-500 mt-1">{t('loans_approveConfirm')}</p>
+              <h3 className="text-sm font-bold text-text-dark">{t('loans_approveLoan')}</h3>
+              <p className="text-xs text-gray-500 mt-1">{t('loans_approveConfirm')}</p>
             </div>
-            <div className="flex gap-3">
-              <button onClick={() => handleApprove(showApproveModal)} className="flex-1 px-4 py-2.5 bg-primary text-white rounded-2xl font-semibold hover:bg-primary-dark transition-colors">{t('loans_yesApprove')}</button>
-              <button onClick={() => setShowApproveModal('')} className="flex-1 px-4 py-2.5 bg-gray-100 text-gray-700 rounded-2xl font-semibold hover:bg-gray-200 transition-colors">{t('common_cancel')}</button>
+            <div className="flex gap-2">
+              <button onClick={() => handleApprove(showApproveModal)} className="flex-1 px-3 py-2 bg-primary text-white rounded-xl text-xs font-semibold hover:bg-primary-dark transition-colors">{t('loans_yesApprove')}</button>
+              <button onClick={() => setShowApproveModal('')} className="flex-1 px-3 py-2 bg-gray-100 text-gray-700 rounded-xl text-xs font-semibold hover:bg-gray-200 transition-colors">{t('common_cancel')}</button>
             </div>
           </div>
         </div>
@@ -270,10 +269,10 @@ export default function LoanListPage() {
               {[
                 { label: t('loans_member'), value: viewLoan.memberName },
                 { label: t('loans_loanType'), value: viewLoan.loanType.replace(/_/g, ' ') },
-                { label: t('loans_amount'), value: `$${Number(viewLoan.principalAmount).toLocaleString()}` },
+                { label: t('loans_amount'), value: `ETB ${Number(viewLoan.principalAmount).toLocaleString()}` },
                 { label: t('loans_rate'), value: `${viewLoan.interestRate}%` },
                 { label: t('loans_term'), value: `${viewLoan.durationMonths} months` },
-                { label: t('loans_outstanding'), value: `$${Number(viewLoan.outstandingBalance).toLocaleString()}` },
+                { label: t('loans_outstanding'), value: `ETB ${Number(viewLoan.outstandingBalance).toLocaleString()}` },
               ].map(row => (
                 <div key={row.label} className="bg-primary-50 dark:bg-slate-700 rounded-xl p-3">
                   <p className="text-[10px] font-bold text-text-soft uppercase tracking-wider">{row.label}</p>
@@ -357,18 +356,18 @@ export default function LoanListPage() {
       )}
 
       {cancelId && (
-        <div className="fixed inset-0 z-50 bg-white dark:bg-slate-900 overflow-y-auto flex flex-col" onClick={() => setCancelId(null)}>
-          <div className="w-full flex-1 p-6 md:p-10 flex flex-col justify-center" onClick={e => e.stopPropagation()}>
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm" onClick={() => setCancelId(null)}>
+          <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-2xl border border-blue-50 dark:border-slate-700 p-6 w-full max-w-xs mx-4" onClick={e => e.stopPropagation()}>
             <div className="text-center mb-4">
-              <div className="w-14 h-14 bg-primary rounded-full flex items-center justify-center mx-auto mb-3 shadow-lg shadow-primary/20">
-                <FiTrash2 className="text-2xl text-white" />
+              <div className="w-11 h-11 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                <FiTrash2 className="w-5 h-5 text-red-500" />
               </div>
-              <h3 className="text-lg font-bold text-text-dark">{t('loans_cancelLoan')}</h3>
-              <p className="text-sm text-gray-500 mt-1">{t('loans_cancelConfirm')}</p>
+              <h3 className="text-sm font-bold text-text-dark">{t('loans_cancelLoan')}</h3>
+              <p className="text-xs text-gray-500 mt-1">{t('loans_cancelConfirm')}</p>
             </div>
-            <div className="flex gap-3">
-              <button onClick={handleCancel} className="flex-1 px-4 py-2.5 bg-primary text-white rounded-xl font-medium hover:bg-primary-dark transition-colors">{t('loans_yesCancel')}</button>
-              <button onClick={() => setCancelId(null)} className="flex-1 px-4 py-2.5 bg-gray-100 text-gray-700 rounded-xl font-medium hover:bg-gray-200 transition-colors">{t('common_back')}</button>
+            <div className="flex gap-2">
+              <button onClick={handleCancel} className="flex-1 px-3 py-2 bg-red-500 text-white rounded-xl text-xs font-semibold hover:bg-red-600 transition-colors">{t('loans_yesCancel')}</button>
+              <button onClick={() => setCancelId(null)} className="flex-1 px-3 py-2 bg-gray-100 text-gray-700 rounded-xl text-xs font-semibold hover:bg-gray-200 transition-colors">{t('common_back')}</button>
             </div>
           </div>
         </div>

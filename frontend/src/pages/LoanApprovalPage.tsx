@@ -120,7 +120,7 @@ export default function LoanApprovalPage() {
                     <td className="px-4 py-3.5 text-sm font-medium text-gray-900">{loan.loanNumber}</td>
                     <td className="px-4 py-3.5 text-sm text-gray-700">{loan.memberName}</td>
                     <td className="px-4 py-3.5 text-sm text-gray-700">{loan.loanType.replace(/_/g, ' ')}</td>
-                    <td className="px-4 py-3.5 text-right text-sm text-gray-900 font-medium">${Number(loan.principalAmount).toLocaleString()}</td>
+                    <td className="px-4 py-3.5 text-right text-sm text-gray-900 font-medium">ETB {Number(loan.principalAmount).toLocaleString()}</td>
                     <td className="px-4 py-3.5 text-right text-sm text-gray-700">{loan.interestRate}%</td>
                     <td className="px-4 py-3.5 text-right text-sm text-gray-700">{loan.durationMonths}m</td>
                     <td className="px-4 py-3.5 text-center">
@@ -159,31 +159,33 @@ export default function LoanApprovalPage() {
       )}
 
       {selectedLoan && action && (
-        <div className="fixed inset-0 z-50 bg-white dark:bg-slate-900 overflow-y-auto flex flex-col" onClick={() => { setSelectedLoan(null); setAction(null); }}>
-          <div className="w-full flex-1 p-6 md:p-10 flex flex-col justify-center" onClick={e => e.stopPropagation()}>
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm" onClick={() => { setSelectedLoan(null); setAction(null); }}>
+          <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-2xl border border-blue-50 dark:border-slate-700 p-6 w-full max-w-xs mx-4" onClick={e => e.stopPropagation()}>
             <div className="text-center mb-4">
-              <div className="w-14 h-14 rounded-full bg-primary flex items-center justify-center mx-auto mb-3 shadow-lg shadow-primary/20">
-                {action === 'approve' ? <FiCheck className="text-2xl text-white" /> :
-                  action === 'disburse' ? <FiSend className="text-2xl text-white" /> :
-                    <FiX className="text-2xl text-white" />}
+              <div className={`w-11 h-11 rounded-full flex items-center justify-center mx-auto mb-3 ${
+                action === 'approve' ? 'bg-primary/10' : action === 'disburse' ? 'bg-green-100' : 'bg-red-100'
+              }`}>
+                {action === 'approve' ? <FiCheck className="w-5 h-5 text-primary" /> :
+                  action === 'disburse' ? <FiSend className="w-5 h-5 text-green-600" /> :
+                    <FiX className="w-5 h-5 text-red-500" />}
               </div>
-              <h3 className="text-lg font-bold text-text-dark">
+              <h3 className="text-sm font-bold text-text-dark">
                 {action === 'approve' ? t('loans_approveLoan') : action === 'disburse' ? t('loans_disburseLoan') : t('loans_rejectLoan')}
               </h3>
-              <p className="text-sm text-gray-500 mt-1">
+              <p className="text-xs text-gray-500 mt-1">
                 {action === 'approve' ? t('loans_approveConfirm') : action === 'disburse' ? t('loans_disburseConfirm') : t('loans_rejectConfirm')}
               </p>
             </div>
-            <div className="flex gap-3">
+            <div className="flex gap-2">
               <button onClick={handleAction}
-                className={`flex-1 px-4 py-2.5 rounded-xl font-medium text-white transition-colors ${action === 'approve' ? 'bg-blue-800 hover:bg-primary-dark' :
-                    action === 'disburse' ? 'bg-green-700 hover:bg-green-800' :
-                      'bg-gray-700 hover:bg-gray-800'
+                className={`flex-1 px-3 py-2 rounded-xl text-xs font-semibold text-white transition-colors ${action === 'approve' ? 'bg-primary hover:bg-primary-dark' :
+                    action === 'disburse' ? 'bg-green-600 hover:bg-green-700' :
+                      'bg-red-500 hover:bg-red-600'
                   }`}>
                 {action === 'approve' ? t('loans_yesApprove') : action === 'disburse' ? t('loans_yesDisburse') : t('loans_yesReject')}
               </button>
               <button onClick={() => { setSelectedLoan(null); setAction(null); }}
-                className="flex-1 px-4 py-2.5 bg-gray-100 text-gray-700 rounded-xl font-medium hover:bg-gray-200">{t('common_cancel')}</button>
+                className="flex-1 px-3 py-2 bg-gray-100 text-gray-700 rounded-xl text-xs font-semibold hover:bg-gray-200 transition-colors">{t('common_cancel')}</button>
             </div>
           </div>
         </div>

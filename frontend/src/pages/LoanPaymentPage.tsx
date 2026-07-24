@@ -203,7 +203,7 @@ export default function LoanPaymentPage() {
                     </div>
                     <div className="mt-1 flex items-center justify-between">
                       <span className="text-xs text-gray-500">{loan.loanType.replace(/_/g, ' ')}</span>
-                      <span className="text-xs font-medium text-gray-700">${Number(loan.outstandingBalance).toLocaleString()}</span>
+                      <span className="text-xs font-medium text-gray-700">ETB {Number(loan.outstandingBalance).toLocaleString()}</span>
                     </div>
                   </button>
                 ))}
@@ -236,11 +236,11 @@ export default function LoanPaymentPage() {
                   <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
                     <div>
                       <p className="text-xs text-gray-500">{t('loans_principal')}</p>
-                      <p className="text-sm font-semibold text-gray-900">${Number(selectedLoan.principalAmount).toLocaleString()}</p>
+                      <p className="text-sm font-semibold text-gray-900">ETB {Number(selectedLoan.principalAmount).toLocaleString()}</p>
                     </div>
                     <div>
                       <p className="text-xs text-gray-500">{t('loans_outstanding')}</p>
-                      <p className="text-sm font-semibold text-gray-900">${Number(selectedLoan.outstandingBalance).toLocaleString()}</p>
+                      <p className="text-sm font-semibold text-gray-900">ETB {Number(selectedLoan.outstandingBalance).toLocaleString()}</p>
                     </div>
                     <div>
                       <p className="text-xs text-gray-500">{t('loans_arrears')}</p>
@@ -293,10 +293,10 @@ export default function LoanPaymentPage() {
                             <tr key={row.id} className={`hover:bg-gray-50 ${row.status === 'PAID' ? 'text-gray-400' : ''}`}>
                               <td className="px-4 py-2.5 text-sm text-gray-700">{row.installmentNumber}</td>
                               <td className="px-4 py-2.5 text-sm text-gray-700">{new Date(row.dueDate).toLocaleDateString()}</td>
-                              <td className="px-4 py-2.5 text-right text-sm text-gray-700">${Number(row.principalAmount).toLocaleString()}</td>
-                              <td className="px-4 py-2.5 text-right text-sm text-gray-700">${Number(row.interestAmount).toLocaleString()}</td>
-                              <td className="px-4 py-2.5 text-right text-sm font-medium text-gray-900">${Number(row.totalAmount).toLocaleString()}</td>
-                              <td className="px-4 py-2.5 text-right text-sm text-gray-700">${Number(row.outstandingBalance).toLocaleString()}</td>
+                              <td className="px-4 py-2.5 text-right text-sm text-gray-700">ETB {Number(row.principalAmount).toLocaleString()}</td>
+                              <td className="px-4 py-2.5 text-right text-sm text-gray-700">ETB {Number(row.interestAmount).toLocaleString()}</td>
+                              <td className="px-4 py-2.5 text-right text-sm font-medium text-gray-900">ETB {Number(row.totalAmount).toLocaleString()}</td>
+                              <td className="px-4 py-2.5 text-right text-sm text-gray-700">ETB {Number(row.outstandingBalance).toLocaleString()}</td>
                               <td className="px-4 py-2.5 text-center">
                                 <span className={`inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium ${
                                   row.status === 'PAID' ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-600'
@@ -339,7 +339,7 @@ export default function LoanPaymentPage() {
                             <td className="px-4 py-2.5 text-sm text-gray-700">{tx.transactionDate ? new Date(tx.transactionDate).toLocaleString() : '-'}</td>
                             <td className="px-4 py-2.5 text-sm text-gray-700">{tx.transactionNumber}</td>
                             <td className="px-4 py-2.5 text-sm text-gray-700">{getMethodLabel(tx.paymentMethod)}</td>
-                            <td className="px-4 py-2.5 text-right text-sm font-medium text-gray-900">${Number(tx.amount).toLocaleString()}</td>
+                            <td className="px-4 py-2.5 text-right text-sm font-medium text-gray-900">ETB {Number(tx.amount).toLocaleString()}</td>
                             <td className="px-4 py-2.5 text-center">
                               <span className={`inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium ${
                                 tx.status === 'COMPLETED' ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-600'
@@ -370,7 +370,7 @@ export default function LoanPaymentPage() {
               <div className="mb-4">
                 <label className="mb-1.5 block text-sm font-medium text-gray-700">{t('loans_paymentAmount')}</label>
                 <div className="relative">
-                  <span className="absolute inset-y-0 left-0 flex items-center pl-3.5 text-sm font-medium text-gray-400">$</span>
+                  <span className="absolute inset-y-0 left-0 flex items-center pl-3.5 text-sm font-medium text-gray-400">ETB</span>
                   <input
                     type="number"
                     step="0.01"

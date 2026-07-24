@@ -10,6 +10,7 @@ import {
 } from 'react-icons/fi';
 import { useLocation } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
+import logo from '../assets/logo.png';
 
 const PAGE_META: { path: string; key: string; icon: React.ElementType; exact?: boolean }[] = [
   { path: '/', key: 'sidebar_dashboard', icon: FiBarChart2, exact: true },
@@ -41,15 +42,12 @@ export default function Navbar() {
   const { user } = useAuth();
   const { t } = useTranslation();
   const meta = usePageMeta();
-  const Icon = meta.icon;
 
   return (
     <header className="bg-white dark:bg-slate-900 border-b border-blue-50 dark:border-slate-700 px-3 sm:px-5 py-2.5 flex items-center justify-between sticky top-0 z-20 shadow-sm">
-      {/* Left — page title with coloured icon */}
+      {/* Left — logo + page title */}
       <div className="pl-10 lg:pl-0 flex items-center gap-2.5">
-        <span className="flex items-center justify-center w-7 h-7 rounded-lg bg-primary-100 shrink-0">
-          <Icon className="w-3.5 h-3.5 text-primary" />
-        </span>
+        <img src={logo} alt="SACCO" className="w-7 h-7 rounded-lg object-contain shrink-0" />
         <h1 className="text-sm font-bold text-text-dark">
           {t(meta.key)}
           {user?.fullName && (

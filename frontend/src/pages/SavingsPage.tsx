@@ -189,7 +189,7 @@ export default function SavingsPage() {
                   <td className="px-4 py-3.5 text-sm font-medium text-gray-900">{acc.accountNumber}</td>
                   <td className="px-4 py-3.5 text-sm text-gray-700">{acc.memberName}</td>
                   <td className="px-4 py-3.5 text-sm"><span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-primary">{acc.accountType}</span></td>
-                  <td className="px-4 py-3.5 text-sm font-bold text-gray-900">${Number(acc.balance).toLocaleString()}</td>
+                  <td className="px-4 py-3.5 text-sm font-bold text-gray-900">ETB {Number(acc.balance).toLocaleString()}</td>
                   <td className="px-4 py-3.5 text-sm text-gray-700">{acc.interestRate}%</td>
                   <td className="px-4 py-3.5">
                     <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${acc.isActive ? 'bg-primary-100 text-primary' : 'bg-gray-100 text-gray-500'}`}>
@@ -337,18 +337,18 @@ export default function SavingsPage() {
       )}
 
       {closeId && (
-        <div className="fixed inset-0 z-50 bg-white dark:bg-slate-900 overflow-y-auto flex flex-col" onClick={() => setCloseId(null)}>
-          <div className="w-full flex-1 p-6 md:p-10 flex flex-col justify-center" onClick={e => e.stopPropagation()}>
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm" onClick={() => setCloseId(null)}>
+          <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-2xl border border-blue-50 dark:border-slate-700 p-6 w-full max-w-xs mx-4" onClick={e => e.stopPropagation()}>
             <div className="text-center mb-4">
-              <div className="w-14 h-14 bg-primary rounded-full flex items-center justify-center mx-auto mb-3 shadow-lg shadow-primary/20">
-                <FiTrash2 className="text-2xl text-white" />
+              <div className="w-11 h-11 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                <FiTrash2 className="w-5 h-5 text-red-500" />
               </div>
-              <h3 className="text-lg font-bold text-text-dark">{t('savings_closeAccount')}</h3>
-              <p className="text-sm text-gray-500 mt-1">{t('savings_closeConfirm')}</p>
+              <h3 className="text-sm font-bold text-text-dark">{t('savings_closeAccount')}</h3>
+              <p className="text-xs text-gray-500 mt-1">{t('savings_closeConfirm')}</p>
             </div>
-            <div className="flex gap-3">
-              <button onClick={handleClose} className="flex-1 px-4 py-2.5 bg-primary text-white rounded-xl font-medium hover:bg-primary-dark transition-colors">{t('savings_yesClose')}</button>
-              <button onClick={() => setCloseId(null)} className="flex-1 px-4 py-2.5 bg-gray-100 text-gray-700 rounded-xl font-medium hover:bg-gray-200 transition-colors">{t('savings_back')}</button>
+            <div className="flex gap-2">
+              <button onClick={handleClose} className="flex-1 px-3 py-2 bg-red-500 text-white rounded-xl text-xs font-semibold hover:bg-red-600 transition-colors">{t('savings_yesClose')}</button>
+              <button onClick={() => setCloseId(null)} className="flex-1 px-3 py-2 bg-gray-100 text-gray-700 rounded-xl text-xs font-semibold hover:bg-gray-200 transition-colors">{t('savings_back')}</button>
             </div>
           </div>
         </div>

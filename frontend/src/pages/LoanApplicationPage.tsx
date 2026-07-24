@@ -120,15 +120,15 @@ export default function LoanApplicationPage() {
           <div className="grid grid-cols-3 gap-4 text-center">
             <div>
               <p className="text-xs text-blue-600">{t('loans_monthlyPayment')}</p>
-              <p className="text-lg font-bold text-blue-900">${Number(calcMonthlyPayment()).toLocaleString()}</p>
+              <p className="text-lg font-bold text-blue-900">ETB {Number(calcMonthlyPayment()).toLocaleString()}</p>
             </div>
             <div>
               <p className="text-xs text-blue-600">{t('loans_totalInterest')}</p>
-              <p className="text-lg font-bold text-blue-900">${Number(calcTotalInterest()).toLocaleString()}</p>
+              <p className="text-lg font-bold text-blue-900">ETB {Number(calcTotalInterest()).toLocaleString()}</p>
             </div>
             <div>
               <p className="text-xs text-blue-600">{t('loans_totalRepayment')}</p>
-              <p className="text-lg font-bold text-blue-900">${(parseFloat(principalAmount) + parseFloat(calcTotalInterest())).toLocaleString()}</p>
+              <p className="text-lg font-bold text-blue-900">ETB {(parseFloat(principalAmount) + parseFloat(calcTotalInterest())).toLocaleString()}</p>
             </div>
           </div>
         </div>
@@ -164,7 +164,7 @@ export default function LoanApplicationPage() {
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1.5">{t('loans_principalAmount')} *</label>
             <div className="relative">
-              <span className="absolute inset-y-0 left-0 pl-3.5 flex items-center text-gray-400 text-sm font-medium">$</span>
+              <span className="absolute inset-y-0 left-0 pl-3.5 flex items-center text-gray-400 text-sm font-medium">ETB</span>
               <input type="number" step="0.01" min="100" max="500000" required value={principalAmount} onChange={e => setPrincipalAmount(e.target.value)}
                 className="w-full pl-8 pr-3.5 py-2.5 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/15 focus:border-primary transition-all text-sm" placeholder="0.00" />
             </div>

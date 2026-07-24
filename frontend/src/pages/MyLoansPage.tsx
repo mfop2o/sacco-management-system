@@ -102,7 +102,7 @@ export default function MyLoansPage() {
                   <tr key={loan.id} className={`hover:bg-primary-50 dark:hover:bg-slate-700 transition-colors ${i % 2 === 0 ? 'bg-white dark:bg-slate-800' : 'bg-primary-50/40 dark:bg-slate-700/40'}`}>
                     <td className="px-4 py-3.5 text-sm font-medium text-gray-900">{loan.loanNumber}</td>
                     <td className="px-4 py-3.5 text-sm text-gray-700">{loan.loanType.replace(/_/g, ' ')}</td>
-                    <td className="px-4 py-3.5 text-right text-sm text-gray-900 font-medium">${Number(loan.principalAmount).toLocaleString()}</td>
+                    <td className="px-4 py-3.5 text-right text-sm text-gray-900 font-medium">ETB {Number(loan.principalAmount).toLocaleString()}</td>
                     <td className="px-4 py-3.5 text-right text-sm text-gray-700">{loan.interestRate}%</td>
                     <td className="px-4 py-3.5 text-right text-sm text-gray-700">{loan.durationMonths}m</td>
                     <td className="px-4 py-3.5 text-center">
@@ -110,7 +110,7 @@ export default function MyLoansPage() {
                         {loan.status.replace(/_/g, ' ')}
                       </span>
                     </td>
-                    <td className="px-4 py-3.5 text-right text-sm font-medium text-gray-900">${Number(loan.outstandingBalance).toLocaleString()}</td>
+                    <td className="px-4 py-3.5 text-right text-sm font-medium text-gray-900">ETB {Number(loan.outstandingBalance).toLocaleString()}</td>
                     <td className="px-4 py-3.5 text-right">
                       {(loan.status === 'DISBURSED' || loan.status === 'REPAYMENT') && (
                         <button onClick={() => navigate('/loans/pay')}

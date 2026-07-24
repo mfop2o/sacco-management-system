@@ -2,6 +2,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Layout from './components/Layout';
 import ProtectedRoute from './components/ProtectedRoute';
 import { AuthProvider } from './contexts/AuthContext';
+import { SidebarProvider } from './contexts/SidebarContext';
 import DashboardPage from './pages/DashboardPage';
 import ForgotPasswordPage from './pages/ForgotPasswordPage';
 import LoanApplicationPage from './pages/LoanApplicationPage';
@@ -29,7 +30,7 @@ function App() {
           <Route path="/forgot-password" element={<ForgotPasswordPage />} />
           <Route path="/reset-password" element={<ResetPasswordPage />} />
           <Route path="/verify-email" element={<VerifyEmailPage />} />
-          <Route element={<ProtectedRoute><Layout /></ProtectedRoute>}>
+          <Route element={<ProtectedRoute><SidebarProvider><Layout /></SidebarProvider></ProtectedRoute>}>
             <Route path="/" element={<DashboardPage />} />
             <Route path="/members" element={<MemberListPage />} />
             <Route path="/members/:id" element={<MemberDetailPage />} />
