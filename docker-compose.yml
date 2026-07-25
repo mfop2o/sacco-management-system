@@ -62,8 +62,9 @@ services:
       SPRING_RABBITMQ_USERNAME: sacco_user
       SPRING_RABBITMQ_PASSWORD: sacco_password
       JWT_SECRET: ${JWT_SECRET:-your-256-bit-secret-key-change-in-production}
+      CORS_ALLOWED_ORIGINS: ${CORS_ALLOWED_ORIGINS:-http://localhost:3000,http://localhost:5173}
     ports:
-      - "8081:8081"
+      - "8082:8082"
     depends_on:
       postgres:
         condition: service_healthy

@@ -50,6 +50,7 @@ export default function LoginPage() {
         className="pointer-events-none absolute -top-24 -left-24 w-80 h-80 rounded-full opacity-50 blur-3xl"
         style={{ background: 'radial-gradient(circle, #93c5fd, transparent)' }}
       />
+
       <div
         className="pointer-events-none absolute -bottom-24 -right-24 w-72 h-72 rounded-full opacity-40 blur-3xl"
         style={{ background: 'radial-gradient(circle, #60a5fa, transparent)' }}
