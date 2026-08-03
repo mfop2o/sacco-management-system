@@ -18,6 +18,10 @@ Thumbs.db
 
 # Logs
 *.log
+backend/logs/
+
+# Build artifacts
+.deploy/
 
 # Environment
 .env
